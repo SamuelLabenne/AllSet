@@ -1,0 +1,374 @@
+---
+import { getCollection } from 'astro:content';
+import {
+  ChevronRight,
+  Rocket,
+  RefreshCw,
+  LifeBuoy,
+  Cloud,
+  LayoutTemplate,
+  UserCheck,
+  BadgeCheck,
+  MapPin,
+  Layers,
+} from '@lucide/astro';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/home/Hero.astro';
+import Statement from '../components/home/Statement.astro';
+import ModuleGrid from '../components/home/ModuleGrid.astro';
+import ProcessStack from '../components/home/ProcessStack.astro';
+import PostCard from '../components/PostCard.astro';
+import CTA from '../components/CTA.astro';
+import { url } from '../config/site';
+
+const posts = (await getCollection('insights', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const reasons = [
+  {
+    Icon: UserCheck,
+    title: 'Senior people, start to finish',
+    text: 'The consultants you meet in the first workshop are the ones who configure, train and support you. No hand-offs.',
+  },
+  {
+    Icon: BadgeCheck,
+    title: 'Fixed scope, clear pricing',
+    text: 'Every phase has an agreed scope and price before it starts, so budgets hold and decisions stay yours.',
+  },
+  {
+    Icon: MapPin,
+    title: 'Set up for Australia',
+    text: 'GST, BAS, local banking and Australian ways of working, configured from day one rather than patched in later.',
+  },
+  {
+    Icon: Layers,
+    title: 'Built to last',
+    text: 'Standard Odoo wherever possible and custom code only where it pays off, so future upgrades stay simple.',
+  },
+];
+---
+
+<Base>
+  <Hero />
+
+  <Statement
+    text="Sales, stock, finance, projects and people, in one system that finally talks to itself. Configured around how your business works, not the other way around."
+    highlight={['one', 'system']}
+  />
+
+  <section class="section soft modules-section">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow reveal">Why Odoo</p>
+        <h2 class="headline reveal" style="--d:1">Every part of the business. One connected platform.</h2>
+        <p class="lede reveal" style="--d:2">
+          Odoo brings dozens of business apps onto a single database. We help you choose the ones
+          you need and make them work together from day one.
+        </p>
+      </div>
+      <ModuleGrid />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow reveal">Services</p>
+        <h2 class="headline reveal" style="--d:1">From first workshop to long after go-live.</h2>
+      </div>
+
+      <div class="bento">
+        <a href={url('/services/#implementation')} class="bento-card big reveal">
+          <span class="icon-chip"><Rocket /></span>
+          <h3 class="title">Odoo implementation</h3>
+          <p>
+            New to Odoo? We scope it, configure it, migrate your data and take you live in clear
+            phases with fixed milestones.
+          </p>
+          <div class="timeline" aria-hidden="true">
+            {['Discover', 'Design', 'Build', 'Launch'].map((s, i) => <span style={`--i:${i}`}>{s}</span>)}
+          </div>
+          <span class="link-arrow">Learn more <ChevronRight /></span>
+        </a>
+
+        <a href={url('/services/#optimise')} class="bento-card reveal" style="--d:1">
+          <span class="icon-chip"><RefreshCw /></span>
+          <h3 class="title">Migrate &amp; optimise</h3>
+          <p>
+            Moving from spreadsheets or another system, or already on Odoo and stuck? We migrate,
+            upgrade and tidy up.
+          </p>
+          <span class="link-arrow">Learn more <ChevronRight /></span>
+        </a>
+
+        <a href={url('/services/#support')} class="bento-card reveal">
+          <span class="icon-chip"><LifeBuoy /></span>
+          <h3 class="title">Support &amp; training</h3>
+          <p>
+            Ongoing help from people who know your setup: training, fixes and steady improvements.
+          </p>
+          <span class="link-arrow">Learn more <ChevronRight /></span>
+        </a>
+
+        <a href={url('/services/#beyond')} class="bento-card dark reveal" style="--d:1">
+          <div class="beyond">
+            <div>
+              <p class="eyebrow">Beyond Odoo</p>
+              <h3 class="title">Salesforce, Revenue Cloud and websites.</h3>
+              <p>
+                Quote-to-cash on Salesforce, and fast, modern websites, from the same team.
+              </p>
+            </div>
+            <div class="beyond-icons" aria-hidden="true">
+              <span><Cloud /></span>
+              <span><LayoutTemplate /></span>
+            </div>
+          </div>
+          <span class="link-arrow">See all services <ChevronRight /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <ProcessStack />
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow reveal">Why All Set</p>
+        <h2 class="headline reveal" style="--d:1">A small team that does it properly.</h2>
+      </div>
+      <div class="reasons">
+        {
+          reasons.map(({ Icon, title, text }, i) => (
+            <div class="reason reveal" style={`--d:${i}`}>
+              <span class="icon-chip">
+                <Icon />
+              </span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    posts.length > 0 && (
+      <section class="section soft">
+        <div class="container">
+          <div class="insights-head">
+            <div>
+              <p class="eyebrow reveal">Insights</p>
+              <h2 class="headline reveal" style="--d:1">
+                Notes from the field.
+              </h2>
+            </div>
+            <a class="link-arrow reveal" href={url('/insights/')}>
+              All insights <ChevronRight />
+            </a>
+          </div>
+          <div class="grid grid-3">
+            {posts.map((post, i) => (
+              <PostCard post={post} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <CTA />
+</Base>
+
+<style>
+  .modules-section {
+    overflow: hidden;
+  }
+
+  /* ── Services bento ── */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2vw, 24px);
+  }
+
+  .bento-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(28px, 3.4vw, 44px);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+    min-height: 320px;
+    transition:
+      opacity 1s var(--ease),
+      transform 1.2s var(--ease),
+      box-shadow 0.5s var(--ease);
+    transition-delay: calc(var(--d, 0) * 90ms), calc(var(--d, 0) * 90ms), 0s;
+  }
+
+  .bento-card:hover {
+    box-shadow: var(--shadow);
+  }
+
+  .bento-card:hover .link-arrow {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .bento-card .title {
+    margin-bottom: 12px;
+  }
+
+  .bento-card p {
+    color: var(--muted);
+    max-width: 520px;
+  }
+
+  .bento-card .link-arrow {
+    margin-top: auto;
+    padding-top: 28px;
+  }
+
+  .bento-card.big {
+    grid-column: span 2;
+    background: var(--grad-soft);
+  }
+
+  .timeline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 28px;
+  }
+
+  .timeline span {
+    position: relative;
+    padding: 9px 16px 9px 30px;
+    border-radius: 999px;
+    background: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .timeline span::before {
+    content: '';
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+    border-radius: 50%;
+    background: hsl(calc(225 + var(--i) * 22) 90% 60%);
+  }
+
+  .bento-card.dark {
+    grid-column: span 2;
+    background: var(--night-3);
+    color: var(--night-ink);
+  }
+
+  .bento-card.dark p {
+    color: var(--night-muted);
+  }
+
+  .bento-card.dark .eyebrow,
+  .bento-card.dark .link-arrow {
+    color: #8ea6ff;
+  }
+
+  .beyond {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .beyond-icons {
+    display: flex;
+    gap: 12px;
+    align-self: flex-start;
+  }
+
+  .beyond-icons span {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.07);
+    color: #fff;
+  }
+
+  .beyond-icons :global(svg) {
+    width: 28px;
+    height: 28px;
+  }
+
+  @media (max-width: 900px) {
+    .bento {
+      grid-template-columns: 1fr 1fr;
+    }
+    .bento-card.big,
+    .bento-card.dark {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .bento {
+      grid-template-columns: 1fr;
+    }
+    .bento-card {
+      min-height: 0;
+    }
+    .beyond-icons {
+      display: none;
+    }
+  }
+
+  /* ── Reasons ── */
+  .reasons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(28px, 3vw, 40px);
+  }
+
+  .reason h3 {
+    font-size: 21px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .reason p {
+    color: var(--muted);
+  }
+
+  @media (max-width: 1000px) {
+    .reasons {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .reasons {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .insights-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: clamp(40px, 5vw, 64px);
+  }
+</style>

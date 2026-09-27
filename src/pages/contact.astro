@@ -1,0 +1,406 @@
+---
+import { Mail, MapPin, Clock, Check } from '@lucide/astro';
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config/site';
+
+const interests = [
+  'Odoo implementation',
+  'Migrating to Odoo',
+  'Improving an existing Odoo setup',
+  'Support & training',
+  'Salesforce / Revenue Cloud',
+  'A new website',
+  'Something else',
+];
+
+const sizes = ['1–10 people', '11–50 people', '51–200 people', '200+ people'];
+
+const steps = [
+  'We reply to find a time for a 30-minute call.',
+  'We talk through your business, your systems and what’s getting in the way.',
+  'You get honest advice on next steps, whether or not that involves us.',
+];
+---
+
+<Base
+  title="Contact"
+  description="Talk to All Set Consulting about implementing or improving Odoo in your business. Book a discovery call or send us a message."
+>
+  <section class="page-hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container narrow">
+      <p class="eyebrow reveal">Contact</p>
+      <h1 class="display reveal" style="--d:1">Let’s talk.</h1>
+      <p class="lede reveal" style="--d:2">
+        Tell us a little about your business and what you’re looking for. We’ll come back to you to
+        set up a no-obligation discovery call.
+      </p>
+    </div>
+  </section>
+
+  <section class="section contact-section">
+    <div class="container contact">
+      <div class="form-card reveal">
+        <form
+          id="contact-form"
+          class="form"
+          data-endpoint={SITE.formEndpoint}
+          data-email={SITE.email}
+          novalidate
+        >
+          <div class="row">
+            <div class="field">
+              <label for="name">Name</label>
+              <input class="input" id="name" name="name" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="email">Work email</label>
+              <input
+                class="input"
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="company">Company <span class="hint">(optional)</span></label>
+              <input class="input" id="company" name="company" autocomplete="organization" />
+            </div>
+            <div class="field">
+              <label for="phone">Phone <span class="hint">(optional)</span></label>
+              <input class="input" id="phone" name="phone" type="tel" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="interest">I’m interested in</label>
+              <select class="input" id="interest" name="interest">
+                {interests.map((i) => <option>{i}</option>)}
+              </select>
+            </div>
+            <div class="field">
+              <label for="size">Company size</label>
+              <select class="input" id="size" name="size">
+                <option value="">Select…</option>
+                {sizes.map((s) => <option>{s}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="message">How can we help?</label>
+            <textarea
+              class="input"
+              id="message"
+              name="message"
+              required
+              placeholder="A few lines about your business, current systems and what you’d like to change."
+            ></textarea>
+          </div>
+
+          <!-- Spam trap: real visitors never see or fill this. -->
+          <div class="trap" aria-hidden="true">
+            <label for="_gotcha">Leave this empty</label>
+            <input id="_gotcha" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="submit-row">
+            <button class="btn btn-primary" type="submit">Send message</button>
+            <p class="privacy">
+              We’ll only use your details to respond to your enquiry.
+            </p>
+          </div>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="success" hidden>
+          <span class="success-icon"><Check /></span>
+          <h2 class="title">Thanks, message received.</h2>
+          <p>We’ll be in touch shortly to find a time that works.</p>
+        </div>
+      </div>
+
+      <aside class="side">
+        <div class="side-block reveal" style="--d:1">
+          <h2>Prefer email?</h2>
+          <a class="side-link" href={`mailto:${SITE.email}`}><Mail /> {SITE.email}</a>
+          <p class="side-line"><MapPin /> {SITE.location}</p>
+          <p class="side-line"><Clock /> We aim to reply within one business day.</p>
+        </div>
+
+        <div class="side-block reveal" style="--d:2">
+          <h2>What happens next</h2>
+          <ol class="steps">
+            {steps.map((s) => <li>{s}</li>)}
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#contact-form')!;
+  const status = form.querySelector<HTMLElement>('.form-status')!;
+  const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+  const success = document.querySelector<HTMLElement>('.success')!;
+  const endpoint = form.dataset.endpoint ?? '';
+  const email = form.dataset.email ?? '';
+
+  function showError(message: string) {
+    status.textContent = message;
+    status.classList.add('is-error');
+  }
+
+  function mailtoFallback(data: FormData) {
+    const get = (k: string) => String(data.get(k) ?? '').trim();
+    const subject = `Enquiry from ${get('name')}${get('company') ? ` (${get('company')})` : ''}`;
+    const details = [
+      `Name: ${get('name')}`,
+      `Email: ${get('email')}`,
+      get('company') && `Company: ${get('company')}`,
+      get('phone') && `Phone: ${get('phone')}`,
+      `Interested in: ${get('interest')}`,
+      get('size') && `Company size: ${get('size')}`,
+    ].filter(Boolean);
+    const body = `${details.join('\n')}\n\n${get('message')}`;
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    status.classList.remove('is-error');
+    status.textContent = 'Your email app should open with the message ready to send.';
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.textContent = '';
+    status.classList.remove('is-error');
+
+    const invalid = [...form.querySelectorAll<HTMLInputElement>('[required]')].find(
+      (el) => !el.checkValidity(),
+    );
+    form.classList.add('was-validated');
+    if (invalid) {
+      invalid.focus();
+      showError(
+        invalid.type === 'email' && invalid.value
+          ? 'Please enter a valid email address.'
+          : 'Please fill in your name, email and message.',
+      );
+      return;
+    }
+
+    const data = new FormData(form);
+    if (data.get('_gotcha')) return;
+
+    if (!endpoint) {
+      mailtoFallback(data);
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = 'Sending…';
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      form.hidden = true;
+      success.hidden = false;
+    } catch {
+      showError(`Something went wrong sending your message. Please email us at ${email}.`);
+    } finally {
+      button.disabled = false;
+      button.textContent = 'Send message';
+    }
+  });
+</script>
+
+<style>
+  .contact-section {
+    padding-top: 0;
+  }
+
+  .contact {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: start;
+  }
+
+  .form-card {
+    background: #fff;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    padding: clamp(24px, 4vw, 48px);
+  }
+
+  .form {
+    display: grid;
+    gap: 22px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+
+  .was-validated .input:invalid {
+    border-color: #d93025;
+  }
+
+  .trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .submit-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 24px;
+    margin-top: 6px;
+  }
+
+  .privacy {
+    font-size: 13px;
+    color: var(--faint);
+    max-width: 280px;
+  }
+
+  .form-status {
+    font-size: 15px;
+    color: var(--ink-2);
+    min-height: 1.5em;
+  }
+
+  .form-status:empty {
+    display: none;
+  }
+
+  .form-status.is-error {
+    color: #c5221f;
+  }
+
+  .success {
+    text-align: center;
+    padding: 48px 12px;
+  }
+
+  .success-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--grad);
+    color: #fff;
+    margin-bottom: 24px;
+  }
+
+  .success-icon :global(svg) {
+    width: 34px;
+    height: 34px;
+  }
+
+  .success p {
+    margin-top: 12px;
+    color: var(--muted);
+  }
+
+  .side {
+    display: grid;
+    gap: 40px;
+    padding-top: 8px;
+  }
+
+  .side h2 {
+    font-size: 21px;
+    font-weight: 650;
+    margin-bottom: 16px;
+  }
+
+  .side-link,
+  .side-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    color: var(--ink-2);
+    word-break: break-word;
+  }
+
+  .side-link {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .side-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .side :global(svg) {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    color: var(--faint);
+  }
+
+  .side-link :global(svg) {
+    color: var(--accent);
+  }
+
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+  }
+
+  .steps li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 12px;
+    color: var(--ink-2);
+  }
+
+  .steps li::before {
+    content: counter(step);
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--grad-soft);
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .contact {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

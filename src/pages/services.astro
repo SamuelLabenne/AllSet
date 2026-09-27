@@ -1,0 +1,693 @@
+---
+import {
+  Check,
+  ChevronRight,
+  Rocket,
+  RefreshCw,
+  LifeBuoy,
+  Cloud,
+  LayoutTemplate,
+  Target,
+  Map as MapIcon,
+  Handshake,
+} from '@lucide/astro';
+import Base from '../layouts/Base.astro';
+import CTA from '../components/CTA.astro';
+import { bookingHref } from '../config/site';
+
+const services = [
+  {
+    id: 'implementation',
+    Icon: Rocket,
+    eyebrow: 'Odoo implementation',
+    title: 'Go live with confidence.',
+    text: 'A complete implementation, from understanding how you work today to supporting your team through the first weeks live. Delivered in clear phases, each with an agreed scope and price.',
+    points: [
+      'Discovery workshops and fit–gap analysis',
+      'Solution design and process mapping',
+      'Configuration of core apps: sales, inventory, purchasing, accounting and more',
+      'Data migration from your current systems',
+      'Integrations with payments, shipping, banking and eCommerce',
+      'Hands-on training and go-live support',
+    ],
+    visual: 'phases',
+  },
+  {
+    id: 'optimise',
+    Icon: RefreshCw,
+    eyebrow: 'Migrate & optimise',
+    title: 'Get more from what you have.',
+    text: 'Moving off spreadsheets, an accounting-only package or an ageing ERP? Or already on Odoo but it isn’t doing what you hoped? We migrate, upgrade and tidy up so the system works for you again.',
+    points: [
+      'Migration from spreadsheets and legacy systems',
+      'Odoo version upgrades',
+      'Health checks: configuration, data quality and performance',
+      'Automation of repetitive work',
+      'Custom modules, only where they clearly pay off',
+      'Reporting and dashboards that people actually use',
+    ],
+    visual: 'health',
+  },
+  {
+    id: 'support',
+    Icon: LifeBuoy,
+    eyebrow: 'Support & training',
+    title: 'Here long after go-live.',
+    text: 'Your business keeps changing, and your system should keep up. Ongoing support from consultants who already know your setup, with no ticket queues or starting from scratch.',
+    points: [
+      'Flexible support plans',
+      'User and administrator training',
+      'Continuous improvement backlog',
+      'Quarterly reviews and roadmap planning',
+      'Help rolling out new Odoo apps as you grow',
+    ],
+    visual: 'support',
+  },
+];
+
+const models = [
+  {
+    Icon: Target,
+    title: 'Fixed-scope project',
+    text: 'A defined first phase with an agreed price. Ideal for getting core operations live quickly.',
+  },
+  {
+    Icon: MapIcon,
+    title: 'Phased roadmap',
+    text: 'A larger transformation broken into phases, each scoped and approved before it starts.',
+  },
+  {
+    Icon: Handshake,
+    title: 'Ongoing partnership',
+    text: 'A monthly support and improvement plan, for businesses already live on Odoo.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'How long does an Odoo implementation take?',
+    a: 'It depends on scope. A focused first phase for a smaller business often takes a couple of months, while multi-company or manufacturing projects take longer. After discovery we give you a timeline we’re prepared to commit to.',
+  },
+  {
+    q: 'What does it cost?',
+    a: 'Every project is scoped and priced after a short discovery phase, so you know the cost of each phase before it begins. We don’t do open-ended hourly billing on implementations.',
+  },
+  {
+    q: 'Do you work with Odoo Community or Enterprise?',
+    a: 'Both. We’ll recommend the edition and hosting option (Odoo Online, Odoo.sh or self-hosted) that suits the apps you need and how much you plan to customise.',
+  },
+  {
+    q: 'Can you work alongside our accountant or bookkeeper?',
+    a: 'Yes, and we recommend it. We involve your accountant early so the chart of accounts, tax settings and reporting are set up the way they need them.',
+  },
+  {
+    q: 'Where do you work?',
+    a: 'With businesses across Australia. Most of our work is remote, with on-site workshops and go-live support where it makes a difference.',
+  },
+];
+---
+
+<Base
+  title="Services"
+  description="Odoo implementation, migration, optimisation and ongoing support for Australian businesses, plus Salesforce Revenue Cloud and website projects."
+>
+  <section class="page-hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container narrow">
+      <p class="eyebrow reveal">Services</p>
+      <h1 class="display reveal" style="--d:1">Odoo, end to end.</h1>
+      <p class="lede reveal" style="--d:2">
+        Whether you’re starting fresh, moving from another system or getting more out of the
+        Odoo you already have, we take care of it properly.
+      </p>
+      <nav class="jump reveal" style="--d:3" aria-label="Services on this page">
+        <a href="#implementation">Implementation</a>
+        <a href="#optimise">Migrate &amp; optimise</a>
+        <a href="#support">Support &amp; training</a>
+        <a href="#beyond">Beyond Odoo</a>
+      </nav>
+    </div>
+  </section>
+
+  {
+    services.map((s, i) => (
+      <section id={s.id} class:list={['section', 'service', { soft: i % 2 === 1 }]}>
+        <div class:list={['container', 'split', { flip: i % 2 === 1 }]}>
+          <div class="copy">
+            <span class="icon-chip reveal">
+              <s.Icon />
+            </span>
+            <p class="eyebrow reveal">{s.eyebrow}</p>
+            <h2 class="headline reveal" style="--d:1">
+              {s.title}
+            </h2>
+            <p class="lede reveal" style="--d:2">
+              {s.text}
+            </p>
+            <ul class="check-list reveal" style="--d:3">
+              {s.points.map((p) => (
+                <li>
+                  <Check />
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div
+            class="visual"
+            data-scroll="enter"
+            data-start="1"
+            data-end="0.4"
+            style={`--dir:${i % 2 === 1 ? -1 : 1}`}
+            aria-hidden="true"
+          >
+            <div class="panel">
+              {s.visual === 'phases' && (
+                <div class="phases">
+                  {['Discover', 'Design', 'Build', 'Launch', 'Grow'].map((p, j) => (
+                    <div class="phase" style={`--j:${j}`}>
+                      <span class="dot" />
+                      <strong>{p}</strong>
+                      <em>{['Workshops', 'Blueprint', 'Sprints', 'Cut-over', 'Ongoing'][j]}</em>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {s.visual === 'health' && (
+                <div class="health">
+                  <div class="ring">
+                    <svg viewBox="0 0 120 120">
+                      <circle cx="60" cy="60" r="52" class="track" />
+                      <circle cx="60" cy="60" r="52" class="meter" pathLength="100" />
+                    </svg>
+                    <div class="score">
+                      <strong>92</strong>
+                      <span>Health score</span>
+                    </div>
+                  </div>
+                  <div class="checks">
+                    {['Configuration', 'Data quality', 'Automation', 'Reporting'].map((c, j) => (
+                      <div class="check-row" style={`--j:${j}`}>
+                        <span>{c}</span>
+                        <b style={`--w:${[96, 88, 91, 93][j]}%`} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {s.visual === 'support' && (
+                <div class="chat">
+                  <div class="bubble them" style="--j:0">
+                    Can we add a second warehouse before the end of the month?
+                  </div>
+                  <div class="bubble us" style="--j:1">
+                    Yes. We’ll set up the location, transfer routes and reorder rules, then walk
+                    your team through it on Thursday.
+                  </div>
+                  <div class="bubble them" style="--j:2">
+                    Perfect, thank you!
+                  </div>
+                  <div class="status" style="--j:3">
+                    <Check /> Resolved by your consultant
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section id="beyond" class="section night" data-theme="dark">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow reveal">Beyond Odoo</p>
+        <h2 class="headline reveal" style="--d:1">The same care, on other platforms.</h2>
+        <p class="lede reveal" style="--d:2">
+          Odoo is our focus. Our team also brings deep experience in Salesforce quote-to-cash and in
+          building modern websites, and both often sit right next to an ERP.
+        </p>
+      </div>
+      <div class="grid grid-2">
+        <div id="salesforce" class="dark-card reveal">
+          <span class="icon-chip dark-chip"><Cloud /></span>
+          <h3 class="title">Salesforce &amp; Revenue Cloud</h3>
+          <p>
+            Quote-to-cash on Salesforce: product catalogues, pricing, quoting, contracts and billing,
+            implemented and optimised by people who have done it before.
+          </p>
+          <ul class="check-list">
+            <li><Check /> Revenue Cloud and CPQ implementation</li>
+            <li><Check /> Quote-to-cash process design</li>
+            <li><Check /> Integration with your ERP, including Odoo</li>
+          </ul>
+        </div>
+        <div id="websites" class="dark-card reveal" style="--d:1">
+          <span class="icon-chip dark-chip"><LayoutTemplate /></span>
+          <h3 class="title">Websites</h3>
+          <p>
+            Fast, modern websites that look the part and are easy to keep up to date, from marketing
+            sites to Odoo Website and eCommerce storefronts.
+          </p>
+          <ul class="check-list">
+            <li><Check /> Design and build</li>
+            <li><Check /> Odoo Website &amp; eCommerce</li>
+            <li><Check /> Hosting, domains and analytics set-up</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow reveal">Ways to work together</p>
+        <h2 class="headline reveal" style="--d:1">Clear scope. No surprises.</h2>
+      </div>
+      <div class="grid grid-3">
+        {
+          models.map(({ Icon, title, text }, i) => (
+            <div class="card reveal" style={`--d:${i}`}>
+              <span class="icon-chip">
+                <Icon />
+              </span>
+              <h3 class="model-title">{title}</h3>
+              <p class="muted-text">{text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container narrow">
+      <div class="section-head center">
+        <p class="eyebrow reveal">FAQ</p>
+        <h2 class="headline reveal" style="--d:1">Good questions.</h2>
+      </div>
+      <div class="faq">
+        {
+          faqs.map((f, i) => (
+            <details class="reveal" style={`--d:${i}`}>
+              <summary>
+                {f.q}
+                <span class="plus" aria-hidden="true" />
+              </summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+      <p class="center faq-more reveal">
+        <a class="link-arrow" href={bookingHref()}>Ask us anything <ChevronRight /></a>
+      </p>
+    </div>
+  </section>
+
+  <CTA />
+</Base>
+
+<style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 40px;
+  }
+
+  .jump a {
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+  }
+
+  .jump a:hover {
+    background: #e8e8ed;
+  }
+
+  /* ── Service rows ── */
+  .service {
+    overflow: hidden;
+  }
+
+  .page-hero + .service {
+    padding-top: clamp(40px, 6vw, 80px);
+  }
+
+  .copy .icon-chip {
+    display: grid;
+    margin-bottom: 20px;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 7vw, 100px);
+    align-items: center;
+  }
+
+  .split.flip .copy {
+    order: 2;
+  }
+
+  .copy .lede {
+    margin-top: 20px;
+    font-size: clamp(18px, 1.8vw, 21px);
+  }
+
+  .copy .headline {
+    font-size: clamp(34px, 4.4vw, 54px);
+  }
+
+  .visual {
+    perspective: 1200px;
+  }
+
+  /* Panels swing in from the side and settle flat as they scroll into view. */
+  .panel {
+    --q: calc(1 - var(--p));
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-lg);
+    padding: clamp(24px, 3.5vw, 44px);
+    min-height: 380px;
+    display: grid;
+    align-items: center;
+    transform: rotateY(calc(var(--q) * -22deg * var(--dir))) rotateX(calc(var(--q) * 8deg))
+      translate3d(calc(var(--q) * 60px * var(--dir)), 0, calc(var(--q) * -120px));
+    opacity: calc(0.2 + var(--p) * 0.8);
+  }
+
+  .soft .panel {
+    border-color: transparent;
+  }
+
+  /* Items inside each panel arrive in sequence. */
+  .phase,
+  .check-row,
+  .bubble,
+  .status {
+    --t: clamp(0, calc(var(--p) * 5 - var(--j) * 0.7 - 0.6), 1);
+    opacity: var(--t);
+    transform: translate3d(0, calc((1 - var(--t)) * 16px), 0);
+  }
+
+  .phases {
+    display: grid;
+    gap: 10px;
+  }
+
+  .phase {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: var(--bg-soft);
+  }
+
+  .phase .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: hsl(calc(225 + var(--j) * 18) 90% 60%);
+    box-shadow: 0 0 0 5px hsl(calc(225 + var(--j) * 18) 90% 60% / 0.15);
+  }
+
+  .phase strong {
+    font-weight: 600;
+  }
+
+  .phase em {
+    font-style: normal;
+    font-size: 14px;
+    color: var(--faint);
+  }
+
+  .health {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(20px, 3vw, 36px);
+    align-items: center;
+  }
+
+  .ring {
+    position: relative;
+    width: clamp(130px, 14vw, 170px);
+  }
+
+  .ring svg {
+    transform: rotate(-90deg);
+  }
+
+  .ring circle {
+    fill: none;
+    stroke-width: 10;
+  }
+
+  .ring .track {
+    stroke: var(--bg-soft);
+  }
+
+  .ring .meter {
+    stroke: var(--accent);
+    stroke-linecap: round;
+    stroke-dasharray: calc(var(--p) * 92) 100;
+  }
+
+  .score {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    text-align: center;
+  }
+
+  .score strong {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 3.6vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .score span {
+    font-size: 12px;
+    color: var(--faint);
+  }
+
+  .checks {
+    display: grid;
+    gap: 16px;
+  }
+
+  .check-row {
+    display: grid;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .check-row b {
+    display: block;
+    height: 8px;
+    border-radius: 99px;
+    width: var(--w);
+    background: var(--grad);
+  }
+
+  .chat {
+    display: grid;
+    gap: 12px;
+  }
+
+  .bubble {
+    max-width: 85%;
+    padding: 13px 16px;
+    border-radius: 20px;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .bubble.them {
+    background: var(--bg-soft);
+    border-bottom-left-radius: 6px;
+  }
+
+  .bubble.us {
+    justify-self: end;
+    background: var(--accent);
+    color: #fff;
+    border-bottom-right-radius: 6px;
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-self: center;
+    margin-top: 6px;
+    font-size: 13px;
+    color: #0e8a5f;
+    font-weight: 500;
+  }
+
+  .status :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (max-width: 860px) {
+    .split {
+      grid-template-columns: 1fr;
+    }
+    .split.flip .copy {
+      order: 0;
+    }
+    .panel {
+      min-height: 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .health {
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+    .checks {
+      width: 100%;
+    }
+  }
+
+  /* ── Beyond Odoo ── */
+  .dark-card {
+    padding: clamp(28px, 3.6vw, 48px);
+    border-radius: var(--radius);
+    background: var(--night-3);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .dark-card .title {
+    color: #fff;
+    margin-bottom: 14px;
+  }
+
+  .dark-card p {
+    color: var(--night-muted);
+  }
+
+  .dark-chip {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+  }
+
+  .night .check-list li {
+    color: #e8e8ed;
+  }
+
+  .night .check-list :global(svg) {
+    color: #8ea6ff;
+  }
+
+  /* ── Engagement models ── */
+  .model-title {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .muted-text {
+    color: var(--muted);
+  }
+
+  /* ── FAQ ── */
+  .faq {
+    display: grid;
+    gap: 12px;
+  }
+
+  details {
+    background: #fff;
+    border-radius: 20px;
+    interpolate-size: allow-keywords;
+  }
+
+  details::details-content {
+    height: 0;
+    overflow: clip;
+    transition:
+      height 0.4s var(--ease),
+      content-visibility 0.4s allow-discrete;
+  }
+
+  details[open]::details-content {
+    height: auto;
+  }
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 26px;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .plus {
+    position: relative;
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg-soft);
+  }
+
+  .plus::before,
+  .plus::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 12px;
+    height: 1.5px;
+    margin: -0.75px 0 0 -6px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: transform 0.35s var(--ease);
+  }
+
+  .plus::after {
+    transform: rotate(90deg);
+  }
+
+  details[open] .plus::after {
+    transform: rotate(0deg);
+  }
+
+  details p {
+    padding: 0 26px 24px;
+    color: var(--muted);
+    max-width: 640px;
+  }
+
+  .faq-more {
+    margin-top: 40px;
+  }
+</style>

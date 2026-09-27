@@ -1,0 +1,148 @@
+---
+import {
+  Handshake,
+  ReceiptText,
+  Boxes,
+  Calculator,
+  Truck,
+  Factory,
+  ShoppingCart,
+  Globe,
+  CreditCard,
+  SquareKanban,
+  LifeBuoy,
+  Users,
+} from '@lucide/astro';
+
+const modules = [
+  { name: 'CRM', note: 'Leads & pipeline', Icon: Handshake },
+  { name: 'Sales', note: 'Quotes to orders', Icon: ReceiptText },
+  { name: 'Inventory', note: 'Stock & warehouses', Icon: Boxes },
+  { name: 'Accounting', note: 'GST, BAS & reporting', Icon: Calculator },
+  { name: 'Purchase', note: 'Suppliers & POs', Icon: Truck },
+  { name: 'Manufacturing', note: 'BoMs & work orders', Icon: Factory },
+  { name: 'eCommerce', note: 'Online store', Icon: ShoppingCart },
+  { name: 'Website', note: 'Pages & forms', Icon: Globe },
+  { name: 'Point of Sale', note: 'Retail & hospitality', Icon: CreditCard },
+  { name: 'Project', note: 'Tasks & timesheets', Icon: SquareKanban },
+  { name: 'Helpdesk', note: 'Customer support', Icon: LifeBuoy },
+  { name: 'Employees', note: 'People & leave', Icon: Users },
+];
+
+// Hand-tuned depths and drift so the tiles start scattered through space.
+const scatter = [
+  [260, -40, -30],
+  [80, 20, -60],
+  [340, 30, 20],
+  [140, 60, -20],
+  [40, -60, 40],
+  [300, -10, 60],
+  [180, 50, -40],
+  [420, -30, 10],
+  [100, -50, -50],
+  [360, 40, 30],
+  [220, -20, 70],
+  [60, 70, -10],
+];
+---
+
+<div class="modules" data-scroll="enter" data-start="1.05" data-end="0.3">
+  <div class="plane">
+    {
+      modules.map(({ name, note, Icon }, i) => {
+        const [z, x, y] = scatter[i];
+        return (
+          <div class="tile" style={`--z:${z}px;--x:${x}px;--y:${y}px;--hue:${220 + i * 8}`}>
+            <span class="tile-icon">
+              <Icon />
+            </span>
+            <strong>{name}</strong>
+            <span class="note">{note}</span>
+          </div>
+        );
+      })
+    }
+  </div>
+</div>
+
+<style>
+  .modules {
+    perspective: 1600px;
+    perspective-origin: 50% 30%;
+  }
+
+  .plane {
+    --q: calc(1 - var(--p));
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(12px, 1.6vw, 20px);
+    transform-style: preserve-3d;
+    transform: rotateX(calc(var(--q) * 48deg)) rotateZ(calc(var(--q) * -8deg))
+      scale(calc(0.84 + var(--p) * 0.16));
+    transform-origin: 50% 40%;
+  }
+
+  .tile {
+    display: grid;
+    gap: 4px;
+    align-content: start;
+    padding: clamp(18px, 2.2vw, 26px);
+    border-radius: 22px;
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: 0 calc(var(--q) * 30px + 2px) calc(var(--q) * 60px + 8px) rgba(30, 30, 80, calc(0.06 + var(--q) * 0.1));
+    transform: translate3d(calc(var(--x) * var(--q)), calc(var(--y) * var(--q)), calc(var(--z) * var(--q)));
+    opacity: calc(0.25 + var(--p) * 0.75);
+    transition: box-shadow 0.4s var(--ease);
+  }
+
+  .tile-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    margin-bottom: 14px;
+    color: #fff;
+    background: linear-gradient(135deg, hsl(var(--hue) 92% 62%), hsl(calc(var(--hue) + 40) 85% 62%));
+    box-shadow: 0 6px 16px hsl(var(--hue) 80% 60% / 0.3);
+  }
+
+  .tile-icon :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  strong {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  .note {
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  @media (max-width: 900px) {
+    .plane {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .plane {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .tile {
+      border-radius: 18px;
+    }
+    strong {
+      font-size: 17px;
+    }
+    .note {
+      font-size: 13px;
+    }
+  }
+</style>
