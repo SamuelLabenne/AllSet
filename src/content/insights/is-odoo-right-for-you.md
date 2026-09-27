@@ -2,7 +2,7 @@
 title: Is Odoo right for your business? An honest checklist
 description: Odoo is a great fit for many growing businesses, but not all of them. Here's how to tell which side of the line you're on.
 date: 2026-09-08
-author: Freek
+author: Freek van Reijen
 category: Odoo
 cover: 1
 ---

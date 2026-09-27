@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import { SITE, url } from '../config/site';
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 }
 
 const { title, description = SITE.description, type = 'website' } = Astro.props;
-const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · Odoo implementation in Australia`;
+const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · Odoo implementation specialists`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(url('/og.png'), Astro.site);
 ---
@@ -45,6 +46,7 @@ const ogImage = new URL(url('/og.png'), Astro.site);
       <slot />
     </main>
     <Footer />
+    <CookieConsent />
     <script>
       import '../scripts/scroll.ts';
     </script>

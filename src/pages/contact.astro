@@ -1,7 +1,7 @@
 ---
 import { Mail, MapPin, Clock, Check } from '@lucide/astro';
 import Base from '../layouts/Base.astro';
-import { SITE } from '../config/site';
+import { SITE, url } from '../config/site';
 
 const interests = [
   'Odoo implementation',
@@ -113,7 +113,8 @@ const steps = [
           <div class="submit-row">
             <button class="btn btn-primary" type="submit">Send message</button>
             <p class="privacy">
-              We’ll only use your details to respond to your enquiry.
+              We’ll only use your details to respond to your enquiry. See our
+              <a href={url('/privacy/')}>privacy policy</a>.
             </p>
           </div>
           <p class="form-status" role="status" aria-live="polite"></p>
@@ -276,7 +277,13 @@ const steps = [
   .privacy {
     font-size: 13px;
     color: var(--faint);
-    max-width: 280px;
+    max-width: 300px;
+  }
+
+  .privacy a {
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   .form-status {
@@ -304,8 +311,8 @@ const steps = [
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    background: var(--grad);
-    color: #fff;
+    background: var(--grad-light);
+    color: var(--ink);
     margin-bottom: 24px;
   }
 

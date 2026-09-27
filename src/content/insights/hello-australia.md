@@ -2,7 +2,7 @@
 title: All Set Consulting is launching an Odoo practice in Australia
 description: Why we're starting a consultancy focused on Odoo implementations for Australian businesses, and what you can expect from us.
 date: 2026-09-22
-author: Samuel Labenne & Freek
+author: Samuel Labenne & Freek van Reijen
 category: News
 cover: 0
 ---

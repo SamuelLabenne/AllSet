@@ -27,11 +27,11 @@ const activity = [
   <div class="glow" aria-hidden="true"></div>
 
   <div class="hero-copy container">
-    <p class="eyebrow">Odoo implementation · Australia</p>
+    <p class="eyebrow">Odoo implementation specialists</p>
     <h1 class="display">Your business,<br /><span class="gradient-text">all set.</span></h1>
     <p class="lede">
-      We implement Odoo for growing Australian businesses: one connected system for sales, stock,
-      finance and operations, set up around the way you actually work.
+      We implement Odoo for growing businesses: one connected system for sales, stock, finance and
+      operations, set up around the way you actually work.
     </p>
     <div class="actions">
       <a class="btn btn-primary" href={bookingHref()}>Book a discovery call</a>
@@ -180,7 +180,7 @@ const activity = [
     position: absolute;
     inset: auto 12% -40px;
     height: 80px;
-    background: radial-gradient(closest-side, rgba(60, 60, 140, 0.25), transparent);
+    background: radial-gradient(closest-side, rgba(30, 80, 50, 0.22), transparent);
     filter: blur(20px);
     opacity: calc(0.4 + var(--p) * 0.6);
   }
@@ -236,7 +236,7 @@ const activity = [
     width: 18px;
     height: 18px;
     border-radius: 6px;
-    background: linear-gradient(135deg, hsl(calc(225 + var(--h)) 90% 64%), hsl(calc(255 + var(--h)) 85% 66%));
+    background: linear-gradient(135deg, hsl(calc(150 - var(--h) * 0.45) 62% 62%), hsl(calc(120 - var(--h) * 0.45) 72% 66%));
     opacity: 0.85;
   }
   .side-item.active {
@@ -322,7 +322,7 @@ const activity = [
     flex: 1;
     height: var(--h);
     border-radius: 6px 6px 3px 3px;
-    background: linear-gradient(180deg, #6a4dff, #2f6bff);
+    background: linear-gradient(180deg, #b8ea6c, #34c47c);
     opacity: calc(0.35 + var(--i) * 0.055);
     transform-origin: bottom;
     transform: scaleY(calc(0.3 + var(--p) * 0.7));
@@ -340,7 +340,7 @@ const activity = [
     height: 8px;
     width: var(--w);
     border-radius: 99px;
-    background: linear-gradient(90deg, #2f6bff, #b04dff);
+    background: var(--grad-bar);
   }
   .pipe-row em,
   .act-row em {

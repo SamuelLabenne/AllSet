@@ -10,7 +10,7 @@ const insights = defineCollection({
     date: z.coerce.date(),
     author: z.string().default('All Set Consulting'),
     category: z.string().default('News'),
-    // Cover style 0–3 (blue, violet, teal, warm). Picked from the slug when omitted.
+    // Cover style 0–3 (mint, lime, green, sun). Picked from the slug when omitted.
     cover: z.number().int().min(0).max(3).optional(),
     draft: z.boolean().default(false),
   }),

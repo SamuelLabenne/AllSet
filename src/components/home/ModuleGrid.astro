@@ -18,7 +18,7 @@ const modules = [
   { name: 'CRM', note: 'Leads & pipeline', Icon: Handshake },
   { name: 'Sales', note: 'Quotes to orders', Icon: ReceiptText },
   { name: 'Inventory', note: 'Stock & warehouses', Icon: Boxes },
-  { name: 'Accounting', note: 'GST, BAS & reporting', Icon: Calculator },
+  { name: 'Accounting', note: 'Invoicing, tax & reporting', Icon: Calculator },
   { name: 'Purchase', note: 'Suppliers & POs', Icon: Truck },
   { name: 'Manufacturing', note: 'BoMs & work orders', Icon: Factory },
   { name: 'eCommerce', note: 'Online store', Icon: ShoppingCart },
@@ -52,7 +52,7 @@ const scatter = [
       modules.map(({ name, note, Icon }, i) => {
         const [z, x, y] = scatter[i];
         return (
-          <div class="tile" style={`--z:${z}px;--x:${x}px;--y:${y}px;--hue:${220 + i * 8}`}>
+          <div class="tile" style={`--z:${z}px;--x:${x}px;--y:${y}px;--hue:${152 - i * 8}`}>
             <span class="tile-icon">
               <Icon />
             </span>
@@ -90,7 +90,7 @@ const scatter = [
     border-radius: 22px;
     background: #fff;
     border: 1px solid var(--line);
-    box-shadow: 0 calc(var(--q) * 30px + 2px) calc(var(--q) * 60px + 8px) rgba(30, 30, 80, calc(0.06 + var(--q) * 0.1));
+    box-shadow: 0 calc(var(--q) * 30px + 2px) calc(var(--q) * 60px + 8px) rgba(20, 40, 28, calc(0.06 + var(--q) * 0.1));
     transform: translate3d(calc(var(--x) * var(--q)), calc(var(--y) * var(--q)), calc(var(--z) * var(--q)));
     opacity: calc(0.25 + var(--p) * 0.75);
     transition: box-shadow 0.4s var(--ease);
@@ -103,9 +103,9 @@ const scatter = [
     height: 44px;
     border-radius: 13px;
     margin-bottom: 14px;
-    color: #fff;
-    background: linear-gradient(135deg, hsl(var(--hue) 92% 62%), hsl(calc(var(--hue) + 40) 85% 62%));
-    box-shadow: 0 6px 16px hsl(var(--hue) 80% 60% / 0.3);
+    color: hsl(var(--hue) 55% 20%);
+    background: linear-gradient(135deg, hsl(var(--hue) 68% 78%), hsl(calc(var(--hue) - 28) 80% 76%));
+    box-shadow: 0 6px 16px hsl(var(--hue) 60% 45% / 0.22);
   }
 
   .tile-icon :global(svg) {

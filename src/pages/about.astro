@@ -3,22 +3,28 @@ import { MessageSquare, Layers, Target, HeartHandshake } from '@lucide/astro';
 import Base from '../layouts/Base.astro';
 import CTA from '../components/CTA.astro';
 
-// TODO: replace roles, bios and portraits with the real details.
+// TODO: add portraits and LinkedIn URLs.
 const team = [
   {
     name: 'Samuel Labenne',
     initials: 'SL',
-    role: 'Founder & Principal Consultant',
-    bio: 'Samuel leads client engagements at All Set, from the first discovery workshop through to go-live and beyond.',
-    hue: 228,
+    role: 'Co-founder · Technical lead',
+    bio: [
+      'A developer at heart, Samuel leads the technical side of every project: solution architecture, configuration, data migration and integrations.',
+      'When standard Odoo can’t do the job, Samuel builds what’s missing, cleanly and upgrade-safe, and only when it genuinely earns its place.',
+    ],
+    colors: ['#74e3a4', '#c9ec70'],
     linkedin: '',
   },
   {
-    name: 'Freek',
-    initials: 'F',
-    role: 'Partner & Principal Consultant',
-    bio: 'Freek leads solution design and delivery, making sure every configuration choice serves the way the business actually works.',
-    hue: 262,
+    name: 'Freek van Reijen',
+    initials: 'FvR',
+    role: 'Co-founder · Commercial lead',
+    bio: [
+      'Freek comes from SAP sales, so knows the ERP world from the commercial side: what it takes to build a sound business case and keep a project tied to real outcomes.',
+      'At All Set, Freek leads client relationships, scoping and proposals, making sure every engagement is clearly defined and set up to pay for itself.',
+    ],
+    colors: ['#b8ea6c', '#f3dc62'],
     linkedin: '',
   },
 ];
@@ -49,7 +55,7 @@ const values = [
 
 <Base
   title="About us"
-  description="All Set Consulting is a small, senior Odoo consultancy helping Australian businesses implement Odoo properly and keep improving it."
+  description="All Set Consulting is a small, senior Odoo consultancy helping growing businesses in Australia and Europe implement Odoo properly and keep improving it."
 >
   <section class="page-hero">
     <div class="glow" aria-hidden="true"></div>
@@ -57,8 +63,8 @@ const values = [
       <p class="eyebrow reveal">About us</p>
       <h1 class="display reveal" style="--d:1">Small team.<br />High standards.</h1>
       <p class="lede reveal" style="--d:2">
-        All Set Consulting was founded to bring a better kind of ERP implementation to Australian
-        businesses: senior, straightforward, and in it for the long run.
+        All Set Consulting was founded to bring a better kind of ERP implementation to growing
+        businesses in Australia and Europe: senior, straightforward, and in it for the long run.
       </p>
     </div>
   </section>
@@ -77,6 +83,12 @@ const values = [
           close, and systems that are customised until nobody dares upgrade them.
         </p>
         <p class="reveal" style="--d:2">
+          Between the two of us we cover both sides of an ERP project. Freek brings a commercial
+          background in SAP sales; Samuel brings a developer’s grasp of how these systems are built
+          and connected. Together, that means sound business advice and solid engineering from the
+          same small team.
+        </p>
+        <p class="reveal" style="--d:3">
           All Set exists to do it the first way, every time. We focus on Odoo because it gives
           growing businesses an enterprise-grade platform without enterprise-grade complexity. And
           we stay small so that the people you trust at the start are the people who see it
@@ -110,13 +122,16 @@ const values = [
       <div class="section-head center">
         <p class="eyebrow reveal">The team</p>
         <h2 class="headline reveal" style="--d:1">The people you’ll work with.</h2>
+        <p class="lede reveal" style="--d:2">
+          One commercial lead, one technical lead, and no hand-offs in between.
+        </p>
       </div>
 
       <div class="team">
         {
           team.map((m, i) => (
             <div class="member-wrap reveal" style={`--d:${i}`}>
-              <article class="member" data-tilt="5" style={`--hue:${m.hue}`}>
+              <article class="member" data-tilt="5" style={`--c1:${m.colors[0]};--c2:${m.colors[1]}`}>
                 <div class="portrait" aria-hidden="true">
                   <span class="layer l1" />
                   <span class="layer l2" />
@@ -126,7 +141,9 @@ const values = [
                 <div class="member-body">
                   <h3>{m.name}</h3>
                   <p class="role">{m.role}</p>
-                  <p class="bio">{m.bio}</p>
+                  {m.bio.map((line) => (
+                    <p class="bio">{line}</p>
+                  ))}
                   {m.linkedin && (
                     <a class="link-arrow" href={m.linkedin} rel="noopener" target="_blank">
                       LinkedIn
@@ -217,7 +234,7 @@ const values = [
   }
 
   .tick circle {
-    stroke: #d9dcf5;
+    stroke: #d5efd9;
     stroke-dasharray: calc(var(--p) * 100) 100;
   }
 
@@ -257,8 +274,8 @@ const values = [
     overflow: hidden;
     background: linear-gradient(
       150deg,
-      hsl(var(--hue) 100% 97%),
-      hsl(calc(var(--hue) + 30) 90% 93%)
+      color-mix(in srgb, var(--c1) 14%, #fff),
+      color-mix(in srgb, var(--c2) 22%, #fff)
     );
     transform-style: preserve-3d;
   }
@@ -272,7 +289,7 @@ const values = [
   .l1 {
     width: 70%;
     aspect-ratio: 1;
-    background: radial-gradient(circle at 35% 30%, #fff, hsl(var(--hue) 90% 78%) 75%);
+    background: radial-gradient(circle at 35% 30%, #fff, var(--c1) 75%);
     opacity: 0.8;
     transform: translate3d(calc(var(--mx, 0) * 28px), calc(var(--my, 0) * 28px), 0);
   }
@@ -282,7 +299,7 @@ const values = [
     aspect-ratio: 1;
     right: 8%;
     top: 10%;
-    background: radial-gradient(circle at 35% 30%, #fff, hsl(calc(var(--hue) + 50) 85% 78%) 75%);
+    background: radial-gradient(circle at 35% 30%, #fff, var(--c2) 75%);
     opacity: 0.8;
     transform: translate3d(calc(var(--mx, 0) * -44px), calc(var(--my, 0) * -44px), 0);
   }
@@ -293,8 +310,8 @@ const values = [
     font-size: clamp(64px, 9vw, 104px);
     font-weight: 700;
     letter-spacing: -0.04em;
-    color: #fff;
-    text-shadow: 0 10px 40px hsl(var(--hue) 70% 50% / 0.35);
+    color: rgba(18, 44, 28, 0.82);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   }
 
   .photo-note {
@@ -302,7 +319,7 @@ const values = [
     bottom: 14px;
     right: 16px;
     font-size: 12px;
-    color: hsl(var(--hue) 30% 45%);
+    color: rgba(18, 44, 28, 0.55);
   }
 
   .member-body {
@@ -322,8 +339,12 @@ const values = [
   }
 
   .bio {
-    margin-top: 16px;
+    margin-top: 14px;
     color: var(--muted);
+  }
+
+  .role + .bio {
+    margin-top: 18px;
   }
 
   @media (max-width: 700px) {

@@ -1,0 +1,159 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { SITE, url } from '../config/site';
+
+const { legal, email, formEndpoint, analyticsId } = SITE;
+const entity = legal.entityName || SITE.name;
+---
+
+<Legal
+  title="Privacy policy"
+  description="How All Set Consulting collects, uses and protects personal information, under the EU GDPR and the Australian Privacy Act."
+  intro="We collect as little personal information as we can, use it only to run our business and answer your questions, and never sell it."
+>
+  <h2>Who we are</h2>
+  <p>
+    {entity} (“All Set”, “we”, “us”) provides Odoo implementation and related consulting services to
+    businesses in Australia and Europe. We are responsible for (the “controller” of) the personal
+    information collected through this website.
+  </p>
+  {
+    (legal.registration || legal.address) && (
+      <p>
+        {legal.registration && <>{legal.registration}. </>}
+        {legal.address && <>Registered address: {legal.address}.</>}
+      </p>
+    )
+  }
+  <p>
+    Questions about privacy can go to <a href={`mailto:${email}`}>{email}</a>.
+  </p>
+  <p>
+    This policy is written to meet the EU and UK General Data Protection Regulation (GDPR) and the
+    Australian Privacy Principles in the <em>Privacy Act 1988</em> (Cth).
+  </p>
+
+  <h2>What we collect</h2>
+  <ul>
+    <li>
+      <strong>Information you give us.</strong> When you use our contact form or email us: your name,
+      email address and, if you choose to share them, your company, phone number, company size, the
+      service you’re interested in and your message.
+    </li>
+    <li>
+      <strong>Technical information.</strong> When you visit, our hosting provider automatically
+      processes technical data such as your IP address, browser type and the pages requested, so the
+      site can be delivered and kept secure. We don’t use this to identify you.
+    </li>
+    <li>
+      <strong>Cookies and similar technologies.</strong> We only use analytics cookies if you accept
+      them. See our <a href={url('/cookies/')}>cookie policy</a> for details.
+    </li>
+  </ul>
+  <p>
+    We don’t ask for sensitive information (such as health or financial details) through this
+    website, and the site isn’t intended for children.
+  </p>
+
+  <h2>How we use it, and why</h2>
+  <table>
+    <thead>
+      <tr><th>Purpose</th><th>Legal basis (GDPR)</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Replying to your enquiry and arranging a call</td>
+        <td>Steps you’ve asked us to take before a possible contract, and our legitimate interest in responding to business enquiries</td>
+      </tr>
+      <tr>
+        <td>Running, securing and improving the website</td>
+        <td>Our legitimate interest in operating a secure, working website</td>
+      </tr>
+      <tr>
+        <td>Understanding how the website is used (analytics)</td>
+        <td>Your consent, which you can withdraw at any time</td>
+      </tr>
+      <tr>
+        <td>Keeping records we’re required to keep</td>
+        <td>Legal obligation</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    We don’t sell your personal information, we don’t use it for automated decision-making, and we
+    only send you news or marketing if you’ve asked us to.
+  </p>
+
+  <h2>Who we share it with</h2>
+  <p>We share personal information only with service providers who help us run our business:</p>
+  <ul>
+    <li>our website host, GitHub (GitHub Pages);</li>
+    {formEndpoint && <li>the form service that delivers contact form messages to our inbox;</li>}
+    <li>our email and business software providers;</li>
+    {analyticsId && <li>Google, for website analytics, only if you accept analytics cookies;</li>}
+    <li>professional advisers (such as accountants and lawyers) where needed.</li>
+  </ul>
+  <p>
+    These providers may only use the information to provide their services to us. We may also
+    disclose information where the law requires it.
+  </p>
+
+  <h2>International transfers</h2>
+  <p>
+    We work across Australia and Europe, and some of our providers are based in other countries,
+    including the United States. When personal information from the European Economic Area or the
+    UK is transferred abroad, we rely on recognised safeguards such as adequacy decisions (including
+    the EU–US Data Privacy Framework, where a provider is certified) or the European Commission’s
+    Standard Contractual Clauses. For Australian personal information, we take reasonable steps to
+    make sure overseas recipients handle it consistently with the Australian Privacy Principles.
+  </p>
+
+  <h2>How long we keep it</h2>
+  <p>
+    We keep enquiry details only for as long as we need them to respond and follow up. If we go on
+    to work together, we keep records for the length of the engagement and afterwards for as long
+    as the law requires (for example, tax and accounting rules). Otherwise, we delete them once
+    they’re no longer needed.
+  </p>
+
+  <h2>Your rights</h2>
+  <p>If you’re in the EU, EEA or UK, you have the right to:</p>
+  <ul>
+    <li>access the personal information we hold about you;</li>
+    <li>have it corrected if it’s inaccurate, or deleted;</li>
+    <li>restrict or object to how we use it;</li>
+    <li>receive it in a portable format;</li>
+    <li>withdraw your consent at any time, where we rely on consent; and</li>
+    <li>complain to your local data protection authority.</li>
+  </ul>
+  <p>
+    If you’re in Australia, you can ask to access or correct the personal information we hold about
+    you. If you’re unhappy with how we’ve handled your information, please contact us first; you
+    can also complain to the Office of the Australian Information Commissioner
+    (<a href="https://www.oaic.gov.au" rel="noopener">oaic.gov.au</a>).
+  </p>
+  <p>
+    To make a request, email <a href={`mailto:${email}`}>{email}</a>. We’ll reply within one month
+    (or 30 days under Australian law), and may need to confirm your identity first.
+  </p>
+
+  <h2>Security</h2>
+  <p>
+    The website is served over an encrypted (HTTPS) connection, and we take reasonable technical
+    and organisational measures to protect personal information from loss, misuse and unauthorised
+    access. No system is completely secure, so please avoid sending highly sensitive information
+    through the contact form.
+  </p>
+
+  <h2>Links to other websites</h2>
+  <p>
+    Our website may link to other sites, such as LinkedIn. Their privacy practices are their own,
+    so please read their policies.
+  </p>
+
+  <h2>Changes to this policy</h2>
+  <p>
+    We’ll update this policy when our practices change. The date at the top shows when it was last
+    revised.
+  </p>
+</Legal>

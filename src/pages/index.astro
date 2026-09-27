@@ -38,8 +38,8 @@ const reasons = [
   },
   {
     Icon: MapPin,
-    title: 'Set up for Australia',
-    text: 'GST, BAS, local banking and Australian ways of working, configured from day one rather than patched in later.',
+    title: 'Set up for where you trade',
+    text: 'Tax, reporting and banking configured for your country from day one, from GST and BAS in Australia to VAT across Europe.',
   },
   {
     Icon: Layers,
@@ -264,7 +264,7 @@ const reasons = [
     height: 8px;
     margin-top: -4px;
     border-radius: 50%;
-    background: hsl(calc(225 + var(--i) * 22) 90% 60%);
+    background: hsl(calc(150 - var(--i) * 28) 62% 46%);
   }
 
   .bento-card.dark {
@@ -279,7 +279,7 @@ const reasons = [
 
   .bento-card.dark .eyebrow,
   .bento-card.dark .link-arrow {
-    color: #8ea6ff;
+    color: var(--accent-night);
   }
 
   .beyond {

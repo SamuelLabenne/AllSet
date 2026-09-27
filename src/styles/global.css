@@ -12,13 +12,18 @@
   --line: rgba(0, 0, 0, 0.08);
   --line-strong: rgba(0, 0, 0, 0.14);
 
-  --accent: #2f5bff;
-  --accent-ink: #1f45e0;
-  --violet: #7b4dff;
-  --pink: #ff5f9e;
-  --teal: #13b5a4;
-  --grad: linear-gradient(100deg, #2f6bff 0%, #6a4dff 42%, #b04dff 72%, #ff5f9e 100%);
-  --grad-soft: linear-gradient(135deg, #eef2ff 0%, #f5efff 50%, #fff0f6 100%);
+  /* Brand: fresh mint → lime → sunlight. --grad-light is for surfaces and dark
+     backgrounds; --grad is a touch deeper so large text stays legible on white. */
+  --accent: #13804a;
+  --accent-ink: #0d6b3d;
+  --accent-night: #b9ec7c;
+  --mint: #74e3a4;
+  --lime: #b8ea6c;
+  --sun: #f3e26a;
+  --grad-light: linear-gradient(120deg, #74e3a4 0%, #b8ea6c 52%, #f3e26a 100%);
+  --grad: linear-gradient(100deg, #22bb73 0%, #86cc30 48%, #e4bf14 100%);
+  --grad-bar: linear-gradient(90deg, #34c47c 0%, #a6d93d 55%, #e8cf2e 100%);
+  --grad-soft: linear-gradient(135deg, #ebfaf1 0%, #f4fae3 50%, #fdf8e2 100%);
 
   --night: #000000;
   --night-2: #161617;
@@ -41,7 +46,7 @@
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.04);
   --shadow: 0 2px 6px rgba(0, 0, 0, 0.04), 0 18px 48px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 4px 12px rgba(20, 20, 60, 0.06), 0 40px 100px rgba(20, 20, 60, 0.16);
+  --shadow-lg: 0 4px 12px rgba(20, 40, 28, 0.06), 0 40px 100px rgba(20, 40, 28, 0.15);
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   color-scheme: light;
@@ -118,7 +123,7 @@ p {
 }
 
 ::selection {
-  background: rgba(47, 91, 255, 0.18);
+  background: rgba(116, 227, 164, 0.4);
 }
 
 :focus-visible {
@@ -195,7 +200,7 @@ p {
 }
 
 .night .eyebrow {
-  color: #8ea6ff;
+  color: var(--accent-night);
 }
 
 .display {
@@ -294,7 +299,7 @@ p {
 }
 .btn-accent:hover {
   background: var(--accent-ink);
-  box-shadow: 0 10px 30px rgba(47, 91, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(19, 128, 74, 0.3);
 }
 
 .btn-light {
@@ -340,7 +345,7 @@ p {
   transform: translateX(3px);
 }
 .night .link-arrow {
-  color: #8ea6ff;
+  color: var(--accent-night);
 }
 
 .actions {
@@ -491,9 +496,9 @@ p {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(40% 50% at 20% 30%, rgba(47, 107, 255, 0.12), transparent 70%),
-    radial-gradient(35% 45% at 80% 25%, rgba(176, 77, 255, 0.1), transparent 70%),
-    radial-gradient(30% 40% at 60% 70%, rgba(255, 95, 158, 0.07), transparent 70%);
+    radial-gradient(40% 50% at 20% 30%, rgba(116, 227, 164, 0.2), transparent 70%),
+    radial-gradient(35% 45% at 80% 25%, rgba(243, 226, 106, 0.2), transparent 70%),
+    radial-gradient(30% 40% at 60% 70%, rgba(184, 234, 108, 0.14), transparent 70%);
   filter: blur(10px);
 }
 
@@ -549,7 +554,107 @@ select.input {
 .input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(47, 91, 255, 0.14);
+  box-shadow: 0 0 0 4px rgba(19, 128, 74, 0.16);
+}
+
+/* ───────────────────────── Long-form text ───────────────────────── */
+.prose {
+  font-size: 19px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  letter-spacing: -0.014em;
+}
+
+.prose h2 {
+  font-size: clamp(26px, 3vw, 32px);
+  color: var(--ink);
+  margin: 2em 0 0.6em;
+}
+
+.prose h3 {
+  font-size: 22px;
+  color: var(--ink);
+  margin: 1.8em 0 0.5em;
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+  margin: 0 0 1.15em;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.3em;
+}
+
+.prose li {
+  margin-bottom: 0.5em;
+}
+
+.prose li::marker {
+  color: var(--accent);
+}
+
+.prose strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.prose hr {
+  border: 0;
+  height: 1px;
+  background: var(--line-strong);
+  margin: 2.4em 0;
+}
+
+.prose blockquote {
+  margin: 1.6em 0;
+  padding-left: 1.2em;
+  border-left: 3px solid var(--accent);
+  color: var(--ink);
+  font-size: 1.1em;
+}
+
+.prose img {
+  border-radius: var(--radius-sm);
+  margin: 1.6em 0;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.4em 0 1.8em;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.prose th,
+.prose td {
+  text-align: left;
+  vertical-align: top;
+  padding: 12px 14px 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.prose th {
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.prose code {
+  font-size: 0.9em;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--bg-soft);
 }
 
 /* ───────────────────────── Motion prefs ───────────────────────── */

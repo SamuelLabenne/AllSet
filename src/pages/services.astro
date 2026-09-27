@@ -102,14 +102,14 @@ const faqs = [
   },
   {
     q: 'Where do you work?',
-    a: 'With businesses across Australia. Most of our work is remote, with on-site workshops and go-live support where it makes a difference.',
+    a: 'With businesses in Australia and across Europe. Most of our work is remote, with on-site workshops and go-live support where it makes a difference.',
   },
 ];
 ---
 
 <Base
   title="Services"
-  description="Odoo implementation, migration, optimisation and ongoing support for Australian businesses, plus Salesforce Revenue Cloud and website projects."
+  description="Odoo implementation, migration, optimisation and ongoing support for growing businesses, plus Salesforce Revenue Cloud and website projects."
 >
   <section class="page-hero">
     <div class="glow" aria-hidden="true"></div>
@@ -420,8 +420,8 @@ const faqs = [
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: hsl(calc(225 + var(--j) * 18) 90% 60%);
-    box-shadow: 0 0 0 5px hsl(calc(225 + var(--j) * 18) 90% 60% / 0.15);
+    background: hsl(calc(150 - var(--j) * 22) 62% 46%);
+    box-shadow: 0 0 0 5px hsl(calc(150 - var(--j) * 22) 62% 46% / 0.16);
   }
 
   .phase strong {
@@ -460,7 +460,7 @@ const faqs = [
   }
 
   .ring .meter {
-    stroke: var(--accent);
+    stroke: #34c47c;
     stroke-linecap: round;
     stroke-dasharray: calc(var(--p) * 92) 100;
   }
@@ -503,7 +503,7 @@ const faqs = [
     height: 8px;
     border-radius: 99px;
     width: var(--w);
-    background: var(--grad);
+    background: var(--grad-bar);
   }
 
   .chat {
@@ -596,7 +596,7 @@ const faqs = [
   }
 
   .night .check-list :global(svg) {
-    color: #8ea6ff;
+    color: var(--accent-night);
   }
 
   /* ── Engagement models ── */

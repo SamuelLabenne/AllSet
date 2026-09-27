@@ -42,7 +42,7 @@ const columns = [
           <Logo id="footer-logo" size={28} />
           <span>All Set Consulting</span>
         </a>
-        <p>Odoo implementation specialists for Australian businesses.</p>
+        <p>Odoo implementation specialists for growing businesses in Australia and Europe.</p>
       </div>
 
       {
@@ -63,7 +63,12 @@ const columns = [
 
     <div class="footer-bottom">
       <p>© {year} {SITE.name}. All rights reserved.</p>
-      <p>
+      <ul class="legal">
+        <li><a href={url('/privacy/')}>Privacy policy</a></li>
+        <li><a href={url('/cookies/')}>Cookie policy</a></li>
+        <li><button type="button" data-cookie-settings>Cookie settings</button></li>
+      </ul>
+      <p class="trademarks">
         Odoo is a trademark of Odoo S.A. Salesforce and Revenue Cloud are trademarks of
         Salesforce, Inc.
       </p>
@@ -134,11 +139,40 @@ const columns = [
   .footer-bottom {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 8px 32px;
+    align-items: center;
+    gap: 8px 28px;
     padding-top: 20px;
     font-size: 12px;
     color: var(--faint);
+  }
+
+  .legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+  }
+
+  .legal a,
+  .legal button {
+    color: var(--muted);
+  }
+
+  .legal button {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: inherit;
+    cursor: pointer;
+  }
+
+  .legal button:hover {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .trademarks {
+    width: 100%;
   }
 
   @media (max-width: 860px) {
