@@ -1,0 +1,75 @@
+---
+import OdooLogo from './OdooLogo.astro';
+
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  tone?: 'light' | 'dark';
+}
+const { size = 'md', tone = 'light' } = Astro.props;
+const logoHeight = { sm: 15, md: 19, lg: 26 }[size];
+---
+
+<span class:list={['badge', size, tone]}>
+  <OdooLogo height={logoHeight} tone={tone === 'dark' ? 'white' : 'color'} title="Odoo" />
+  <span class="divider" aria-hidden="true"></span>
+  <span class="label">Official Partner</span>
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 16px 9px 14px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm);
+    white-space: nowrap;
+  }
+
+  .divider {
+    width: 1px;
+    align-self: stretch;
+    background: var(--line-strong);
+  }
+
+  .label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #714b67;
+  }
+
+  .sm {
+    gap: 9px;
+    padding: 6px 12px 6px 11px;
+  }
+
+  .sm .label {
+    font-size: 12px;
+  }
+
+  .lg {
+    gap: 16px;
+    padding: 12px 22px 12px 18px;
+  }
+
+  .lg .label {
+    font-size: 17px;
+  }
+
+  .dark {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: none;
+  }
+
+  .dark .divider {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .dark .label {
+    color: #fff;
+  }
+</style>

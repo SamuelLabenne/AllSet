@@ -1,0 +1,35 @@
+---
+import Logo from './Logo.astro';
+import { SITE, url } from '../config/site';
+
+interface Props {
+  id?: string;
+  size?: number;
+}
+const { id = 'brand', size = 30 } = Astro.props;
+---
+
+<a href={url('/')} class="brand" aria-label={`${SITE.name}, home`}>
+  <Logo id={id} size={size} />
+  <span class="word"><strong>All Set</strong> Partners</span>
+</a>
+
+<style>
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 19px;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .word {
+    font-weight: 450;
+  }
+
+  .word strong {
+    font-weight: 700;
+  }
+</style>

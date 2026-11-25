@@ -7,7 +7,7 @@ const { email, analyticsId } = SITE;
 
 <Legal
   title="Cookie policy"
-  description="Which cookies and similar technologies the All Set Consulting website uses, and how to change your choice."
+  description="Which cookies and similar technologies the All Set Partners website uses, and how to change your choice."
   intro="The site works without any tracking. Analytics cookies are only ever set if you say yes."
 >
   <h2>What cookies are</h2>
@@ -23,7 +23,7 @@ const { email, analyticsId } = SITE;
     </thead>
     <tbody>
       <tr>
-        <td><code>allset-consent</code></td>
+        <td><code>asp-consent</code></td>
         <td>
           <strong>Strictly necessary.</strong> Local storage entry that remembers whether you
           accepted or declined analytics cookies, so we don’t ask on every page.
@@ -86,6 +86,6 @@ const { email, analyticsId } = SITE;
   <p>
     For how we handle personal information more broadly, see our
     <a href={url('/privacy/')}>privacy policy</a>. Questions are welcome at
-    <a href={`mailto:${email}`}>{email}</a>.
+    {email}.
   </p>
 </Legal>

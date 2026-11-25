@@ -8,17 +8,30 @@ import { SITE, url } from '../config/site';
 interface Props {
   title?: string;
   description?: string;
-  type?: 'website' | 'article';
+  /** Transparent nav over a dark hero photo (home page). */
+  navOverlay?: boolean;
 }
 
-const { title, description = SITE.description, type = 'website' } = Astro.props;
-const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · Odoo implementation specialists`;
+const { title, description = SITE.description, navOverlay = false } = Astro.props;
+const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · Official Odoo Partner`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(url('/og.png'), Astro.site);
+
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: SITE.name,
+  alternateName: 'ASP',
+  description: SITE.description,
+  url: new URL(url('/'), Astro.site).href,
+  areaServed: ['Australia', 'Europe'],
+  knowsAbout: ['Odoo', 'Odoo implementation', 'Odoo migration', 'Odoo customisation', 'ERP'],
+  founder: [{ '@type': 'Person', name: 'Samuel Labenne' }],
+};
 ---
 
 <!doctype html>
-<html lang="en-AU">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,27 +41,28 @@ const ogImage = new URL(url('/og.png'), Astro.site);
     {!SITE.indexable && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="sitemap" href={url('/sitemap-index.xml')} />
 
-    <meta property="og:type" content={type} />
+    <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:locale" content="en_AU" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(organization)} />
     <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <Nav />
+    <Nav overlay={navOverlay} />
     <main id="main">
       <slot />
     </main>
     <Footer />
     <CookieConsent />
     <script>
-      import '../scripts/scroll.ts';
+      import '../scripts/reveal.ts';
     </script>
   </body>
 </html>

@@ -1,77 +1,52 @@
 ---
-import Logo from './Logo.astro';
-import { SITE, url } from '../config/site';
+import Brand from './Brand.astro';
+import PartnerBadge from './PartnerBadge.astro';
+import { NAV, SITE, url } from '../config/site';
 
 const year = new Date().getFullYear();
-
-const columns = [
-  {
-    title: 'Services',
-    links: [
-      { label: 'Odoo implementation', href: url('/services/#implementation') },
-      { label: 'Migration & upgrades', href: url('/services/#optimise') },
-      { label: 'Support & training', href: url('/services/#support') },
-      { label: 'Salesforce & Revenue Cloud', href: url('/services/#salesforce') },
-      { label: 'Websites', href: url('/services/#websites') },
-    ],
-  },
-  {
-    title: 'Company',
-    links: [
-      { label: 'About us', href: url('/about/') },
-      { label: 'Insights', href: url('/insights/') },
-      { label: 'Contact', href: url('/contact/') },
-    ],
-  },
-  {
-    title: 'Get in touch',
-    links: [
-      { label: SITE.email, href: `mailto:${SITE.email}` },
-      ...(SITE.linkedin ? [{ label: 'LinkedIn', href: SITE.linkedin }] : []),
-      { label: SITE.location, href: url('/contact/') },
-    ],
-  },
-];
 ---
 
 <footer class="footer">
   <div class="container">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <a href={url('/')} class="brand" aria-label={`${SITE.name}, home`}>
-          <Logo id="footer-logo" size={28} />
-          <span>All Set Consulting</span>
-        </a>
-        <p>Odoo implementation specialists for growing businesses in Australia and Europe.</p>
+    <div class="top">
+      <div class="about">
+        <Brand id="footer-logo" size={28} />
+        <p>Odoo implementation and support for growing businesses in {SITE.region}.</p>
+        <PartnerBadge size="sm" />
       </div>
 
-      {
-        columns.map((col) => (
-          <div class="footer-col">
-            <h2>{col.title}</h2>
-            <ul>
-              {col.links.map((link) => (
-                <li>
-                  <a href={link.href}>{link.label}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
-      }
+      <nav aria-label="Footer" class="col">
+        <h2>Pages</h2>
+        <ul>
+          {
+            NAV.map((item) => (
+              <li>
+                <a href={url(item.href)}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="col">
+        <h2>Contact</h2>
+        <ul>
+          <li>{SITE.email}</li>
+          <li>{SITE.region}</li>
+        </ul>
+      </div>
     </div>
 
-    <div class="footer-bottom">
-      <p>© {year} {SITE.name}. All rights reserved.</p>
+    <div class="bottom">
+      <p>
+        © {year} {SITE.name}{SITE.abn ? <> · ABN {SITE.abn}</> : <> · ABN to be added</>}
+      </p>
       <ul class="legal">
         <li><a href={url('/privacy/')}>Privacy policy</a></li>
         <li><a href={url('/cookies/')}>Cookie policy</a></li>
         <li><button type="button" data-cookie-settings>Cookie settings</button></li>
       </ul>
-      <p class="trademarks">
-        Odoo is a trademark of Odoo S.A. Salesforce and Revenue Cloud are trademarks of
-        Salesforce, Inc.
-      </p>
+      <p class="tm">Odoo is a trademark of Odoo S.A.</p>
     </div>
   </div>
 </footer>
@@ -79,41 +54,38 @@ const columns = [
 <style>
   .footer {
     background: var(--bg-soft);
+    border-top: 1px solid var(--line);
+    padding: 56px 0 28px;
+    font-size: 14px;
     color: var(--muted);
-    font-size: 13px;
-    line-height: 1.5;
-    padding: 64px 0 32px;
   }
 
-  .footer-top {
+  .top {
     display: grid;
-    grid-template-columns: 1.4fr repeat(3, 1fr);
-    gap: 40px 32px;
-    padding-bottom: 40px;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 36px;
+    padding-bottom: 36px;
     border-bottom: 1px solid var(--line);
   }
 
-  .brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
+  .about {
+    display: grid;
+    gap: 16px;
+    justify-items: start;
     color: var(--ink);
-    font-family: var(--font-display);
-    font-weight: 650;
-    font-size: 17px;
-    letter-spacing: -0.02em;
-    margin-bottom: 14px;
   }
 
-  .footer-brand p {
-    max-width: 260px;
+  .about p {
+    max-width: 320px;
+    color: var(--muted);
   }
 
   h2 {
     font-family: var(--font);
     font-size: 13px;
     font-weight: 600;
-    letter-spacing: -0.005em;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
     color: var(--ink);
     margin-bottom: 12px;
   }
@@ -123,26 +95,24 @@ const columns = [
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 9px;
+    gap: 8px;
   }
 
-  a:hover {
+  .col a:hover,
+  .legal a:hover,
+  .legal button:hover {
     color: var(--ink);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
 
-  .brand:hover {
-    text-decoration: none;
-  }
-
-  .footer-bottom {
+  .bottom {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 8px 28px;
     padding-top: 20px;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--faint);
   }
 
@@ -165,28 +135,16 @@ const columns = [
     cursor: pointer;
   }
 
-  .legal button:hover {
-    color: var(--ink);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .trademarks {
+  .tm {
     width: 100%;
   }
 
-  @media (max-width: 860px) {
-    .footer-top {
+  @media (max-width: 720px) {
+    .top {
       grid-template-columns: 1fr 1fr;
     }
-    .footer-brand {
+    .about {
       grid-column: 1 / -1;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .footer-top {
-      grid-template-columns: 1fr;
     }
   }
 </style>
