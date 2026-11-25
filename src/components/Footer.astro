@@ -1,6 +1,7 @@
 ---
 import Brand from './Brand.astro';
 import PartnerBadge from './PartnerBadge.astro';
+import Email from './Email.astro';
 import { NAV, SITE, url } from '../config/site';
 
 const year = new Date().getFullYear();
@@ -31,7 +32,13 @@ const year = new Date().getFullYear();
       <div class="col">
         <h2>Contact</h2>
         <ul>
-          <li>{SITE.email}</li>
+          {
+            SITE.emails.map((e) => (
+              <li>
+                <Email address={e.address} />
+              </li>
+            ))
+          }
           <li>{SITE.region}</li>
         </ul>
       </div>

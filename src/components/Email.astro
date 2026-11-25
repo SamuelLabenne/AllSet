@@ -1,0 +1,19 @@
+---
+import { SITE } from '../config/site';
+
+interface Props {
+  address: string;
+  class?: string;
+}
+const { address, class: className } = Astro.props;
+---
+
+{
+  SITE.emailsLive ? (
+    <a class:list={['email', className]} href={`mailto:${address}`}>
+      {address}
+    </a>
+  ) : (
+    <span class:list={['email', className]}>{address}</span>
+  )
+}

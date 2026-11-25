@@ -3,26 +3,9 @@ import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
 import PartnerBadge from '../components/PartnerBadge.astro';
 import CTA from '../components/CTA.astro';
+import Email from '../components/Email.astro';
 import { SITE } from '../config/site';
-
-// Photos live in src/assets/photos/ (samuel.jpg, freek.jpg).
-const founders = [
-  {
-    photo: 'samuel',
-    name: 'Samuel Labenne',
-    role: 'Co-founder · Technical lead',
-    bio: 'A developer at heart, Samuel leads the technical side of every project: solution design, configuration, data migration and integrations, plus custom development where it genuinely pays off.',
-    linkedin: 'https://www.linkedin.com/in/samuel-labenne-679512225/',
-  },
-  {
-    photo: 'freek',
-    name: 'Freek',
-    role: 'Co-founder · Commercial lead',
-    // TODO: replace with Freek's own bio and add a LinkedIn URL.
-    bio: 'Freek comes from SAP sales and leads the commercial side of All Set Partners: client relationships, scoping and proposals, making sure every project is clearly defined from the start.',
-    linkedin: '',
-  },
-];
+import { team } from '../data/team';
 
 const values = [
   {
@@ -96,7 +79,7 @@ const values = [
       </div>
       <div class="founders">
         {
-          founders.map((f, i) => (
+          team.map((f, i) => (
             <article class="founder reveal" style={`--d:${i}`}>
               <div class="portrait">
                 <Photo
@@ -110,6 +93,7 @@ const values = [
                 <h3>{f.name}</h3>
                 <p class="role">{f.role}</p>
                 <p class="bio">{f.bio}</p>
+                <Email address={f.email} class="founder-email" />
                 {f.linkedin && (
                   <a class="link" href={f.linkedin} target="_blank" rel="noopener">
                     LinkedIn →
@@ -206,6 +190,11 @@ const values = [
 
   .bio {
     color: var(--muted);
+  }
+
+  .founder-body :global(.founder-email) {
+    font-weight: 600;
+    color: var(--ink);
   }
 
   .values {

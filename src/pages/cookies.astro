@@ -2,7 +2,8 @@
 import Legal from '../layouts/Legal.astro';
 import { SITE, url } from '../config/site';
 
-const { email, analyticsId } = SITE;
+const { emails, analyticsId } = SITE;
+const addresses = emails.map((e) => e.address).join(' or ');
 ---
 
 <Legal
@@ -86,6 +87,6 @@ const { email, analyticsId } = SITE;
   <p>
     For how we handle personal information more broadly, see our
     <a href={url('/privacy/')}>privacy policy</a>. Questions are welcome at
-    {email}.
+    {addresses}.
   </p>
 </Legal>

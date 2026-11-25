@@ -2,7 +2,8 @@
 import Legal from '../layouts/Legal.astro';
 import { SITE, url } from '../config/site';
 
-const { name, email, abn, analyticsId } = SITE;
+const { name, emails, abn, analyticsId } = SITE;
+const addresses = emails.map((e) => e.address).join(' or ');
 ---
 
 <Legal
@@ -17,7 +18,7 @@ const { name, email, abn, analyticsId } = SITE;
     the personal information described in this policy.
   </p>
   <p>
-    Questions about privacy can go to {email}. This policy is written to meet the EU General Data
+    Questions about privacy can go to {addresses}. This policy is written to meet the EU General Data
     Protection Regulation (GDPR) and the Australian Privacy Principles in the
     <em>Privacy Act 1988</em> (Cth).
   </p>
@@ -117,7 +118,7 @@ const { name, email, abn, analyticsId } = SITE;
     (<a href="https://www.oaic.gov.au" rel="noopener">oaic.gov.au</a>).
   </p>
   <p>
-    To make a request, email {email}. We’ll reply within one month (or 30 days under Australian
+    To make a request, email {addresses}. We’ll reply within one month (or 30 days under Australian
     law) and may need to confirm your identity first.
   </p>
 

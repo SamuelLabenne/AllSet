@@ -4,6 +4,7 @@ import Photo from '../components/Photo.astro';
 import PartnerBadge from '../components/PartnerBadge.astro';
 import CTA from '../components/CTA.astro';
 import { SITE, url } from '../config/site';
+import { team } from '../data/team';
 
 const services = [
   {
@@ -63,7 +64,7 @@ const steps = [
     <div class="container intro">
       <div class="reveal">
         <p class="eyebrow">Odoo partner</p>
-        <h2 class="headline">We do one thing: Odoo.</h2>
+        <h2 class="headline">Focused entirely on Odoo.</h2>
       </div>
       <div class="intro-text">
         <p class="reveal" style="--d:1">
@@ -126,23 +127,29 @@ const steps = [
           <p class="eyebrow reveal">Who we are</p>
           <h2 class="headline reveal" style="--d:1">The people behind {SITE.name}.</h2>
           <p class="lede reveal" style="--d:2">
-            A small team of Odoo specialists. When you work with us, you work directly with the
-            founders.
+            We’re Samuel and Freek, the founders of {SITE.name}. When you work with us, you work
+            directly with the two of us.
           </p>
         </div>
         <a class="link reveal" href={url('/about/')}>Meet the team →</a>
       </div>
-      <div class="photo-row">
+      <div class="team">
         {
-          [1, 2, 3].map((n, i) => (
-            <div class="photo-frame reveal" style={`--d:${i}`}>
-              <Photo
-                name={`people-${n}`}
-                alt="The All Set Partners team at work"
-                widths={[400, 700, 1000]}
-                sizes="(max-width: 760px) 100vw, 33vw"
-              />
-            </div>
+          team.map((m, i) => (
+            <a class="member reveal" style={`--d:${i}`} href={url('/about/')}>
+              <div class="photo-frame">
+                <Photo
+                  name={m.photo}
+                  alt={`Portrait of ${m.name}`}
+                  widths={[400, 700, 1000]}
+                  sizes="(max-width: 760px) 100vw, 45vw"
+                />
+              </div>
+              <div class="member-body">
+                <h3>{m.name}</h3>
+                <p>{m.role}</p>
+              </div>
+            </a>
           ))
         }
       </div>
@@ -295,17 +302,45 @@ const steps = [
     margin-bottom: clamp(36px, 5vw, 56px);
   }
 
-  .photo-row {
+  .team {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 920px;
+  }
+
+  .member {
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+    transition: box-shadow 0.2s;
+  }
+
+  .member:hover {
+    box-shadow: var(--shadow);
   }
 
   .photo-frame {
-    aspect-ratio: 4 / 5;
-    border-radius: var(--radius);
+    aspect-ratio: 4 / 4.2;
     overflow: hidden;
     background: var(--bg-soft);
+  }
+
+  .member-body {
+    padding: 20px 24px 24px;
+  }
+
+  .member-body h3 {
+    font-size: 22px;
+  }
+
+  .member-body p {
+    margin-top: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent);
   }
 
   @media (max-width: 900px) {
@@ -319,11 +354,8 @@ const steps = [
     .services {
       grid-template-columns: 1fr;
     }
-    .photo-row {
-      grid-template-columns: 1fr 1fr;
-    }
-    .photo-frame:last-child {
-      display: none;
+    .team {
+      grid-template-columns: 1fr;
     }
   }
 

@@ -2,7 +2,8 @@
 
 Website for All Set Partners (ASP), an Odoo consultancy and official Odoo partner working with
 businesses in Australia and Europe. Built with [Astro](https://astro.build) as a static site and
-deployed to GitHub Pages at **https://allsetpartners.com**.
+deployed to GitHub Pages. It's currently in review at
+**https://samuellabenne.github.io/AllSet/** and will move to **https://allsetpartners.com** at launch.
 
 Pages: Home, About, Contact, Privacy policy, Cookie policy, 404.
 
@@ -28,17 +29,16 @@ WebP automatically, so originals of around 2000 px wide are ideal.
 | File | Where it appears | Shape |
 | --- | --- | --- |
 | `hero` | Full-width background of the home page header (a dark blue overlay keeps text readable) | Landscape |
-| `people-1`, `people-2`, `people-3` | "Who we are" photo row on the home page | Portrait, 4:5 |
 | `about` | Next to "Our story" on the About page | Landscape, 4:3 |
-| `samuel` | Samuel's card on the About page | Portrait |
-| `freek` | Freek's card on the About page | Portrait |
+| `samuel` | Samuel's card on the home and About pages | Portrait |
+| `freek` | Freek's card on the home and About pages | Portrait |
 
 ## Where things live
 
 | What | Where |
 | --- | --- |
-| Business details (email, ABN, region, analytics) | `src/config/site.ts` |
-| Founder names, roles and bios | `src/pages/about.astro` |
+| Business details (emails, ABN, region, analytics, indexing) | `src/config/site.ts` |
+| Founder names, roles, bios and emails | `src/data/team.ts` |
 | Pages | `src/pages/` |
 | Design tokens and shared styles | `src/styles/global.css` |
 | Logo mark (placeholder) | `src/components/Logo.astro`, `public/favicon.svg` |
@@ -46,9 +46,11 @@ WebP automatically, so originals of around 2000 px wide are ideal.
 
 ## Email and contact form
 
-The email address is shown as plain text until the mailbox exists. Once it works, turn it into a
-`mailto:` link on the contact page. A cookie consent banner is already in place for when a contact
-form or analytics are added.
+`sam@allsetpartners.com` and `freek@allsetpartners.com` are shown as plain text until the
+mailboxes exist. Then set `emailsLive: true` in `src/config/site.ts` and they become clickable
+everywhere. A future contact form should deliver to both addresses (for example via a shared alias
+that forwards to both, or a form service that supports multiple recipients). The cookie consent
+banner is already in place for it.
 
 ## Cookies, analytics and policies
 
@@ -58,10 +60,14 @@ To add Google Analytics, put the GA4 measurement ID in `analyticsId` in `src/con
 only loads after a visitor accepts, and the policies list it automatically. Bump
 `policiesUpdated` whenever the policies change.
 
-## Domain setup (allsetpartners.com)
+## Going live on allsetpartners.com
 
-- `astro.config.mjs` sets `CUSTOM_DOMAIN = 'allsetpartners.com'`, and `public/CNAME` holds the
-  domain.
+1. In `astro.config.mjs`, set `CUSTOM_DOMAIN = 'allsetpartners.com'` and add `public/CNAME`
+   containing `allsetpartners.com`.
+2. In `src/config/site.ts`, set `indexable: true`.
+3. Push to `main`, then set the custom domain and **Enforce HTTPS** as below.
+
+Domain setup:
 - Cloudflare DNS: four `A` and four `AAAA` records on `@` pointing to GitHub Pages, and a `CNAME`
   for `www` → `samuellabenne.github.io`, all **DNS only** (grey cloud) so GitHub can issue and
   renew the HTTPS certificate.
