@@ -13,8 +13,8 @@ export const SITE = {
   // Contact form: posts to the Cloudflare Worker in /worker, which emails both founders.
   // Leave endpoint empty to hide the form. PUBLIC_* env vars override these for local testing.
   form: {
-    endpoint: import.meta.env.PUBLIC_FORM_ENDPOINT ?? '',
-    turnstileSiteKey: import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '',
+    endpoint: import.meta.env.PUBLIC_FORM_ENDPOINT ?? 'https://asp-contact.labenne-sam.workers.dev',
+    turnstileSiteKey: import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '0x4AAAAAAGSfYv7RuGvVMgvd',
   },
   region: 'Australia & Europe',
   abn: '12 415 125 386',

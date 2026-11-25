@@ -9,7 +9,7 @@ interface Env {
   FROM_ADDRESS: string;
   /** Comma-separated origins allowed to post the form. */
   ALLOWED_ORIGINS: string;
-  /** Turnstile secret key (secret). When unset, the Turnstile check is skipped. */
+  /** Turnstile secret key (secret). Required: without it every submission is refused. */
   TURNSTILE_SECRET?: string;
 }
 
@@ -80,7 +80,11 @@ export default {
       return reply(400, { ok: false, error: 'Please write a message of at least 10 characters.' });
     }
 
-    if (env.TURNSTILE_SECRET) {
+    // Fail closed: never accept submissions without the spam check configured.
+    if (!env.TURNSTILE_SECRET) {
+      return reply(503, { ok: false, error: 'The form is not available right now. Please email us instead.' });
+    }
+    {
       const check = new FormData();
       check.append('secret', env.TURNSTILE_SECRET);
       check.append('response', field('cf-turnstile-response'));

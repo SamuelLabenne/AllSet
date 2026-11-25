@@ -46,11 +46,21 @@ WebP automatically, so originals of around 2000 px wide are ideal.
 
 ## Email and contact form
 
-`sam@allsetpartners.com` and `freek@allsetpartners.com` are shown as plain text until the
-mailboxes exist. Then set `emailsLive: true` in `src/config/site.ts` and they become clickable
-everywhere. A future contact form should deliver to both addresses (for example via a shared alias
-that forwards to both, or a form service that supports multiple recipients). The cookie consent
-banner is already in place for it.
+`sam@` and `freek@allsetpartners.com` are Cloudflare Email Routing addresses that forward to the
+founders' inboxes. They're shown as plain text until `emailsLive: true` is set in
+`src/config/site.ts`.
+
+The contact form posts to a Cloudflare Worker in `worker/` (`asp-contact`), which checks
+Cloudflare Turnstile and emails each enquiry to both founders with Reply-To set to the visitor.
+
+- Deploy: `cd worker && npx wrangler deploy`
+- Private settings (Worker secrets, never committed): `RECIPIENTS` (comma-separated, each must be a
+  verified Email Routing destination address) and `TURNSTILE_SECRET`. Set with
+  `npx wrangler secret put <NAME>`. Without `TURNSTILE_SECRET` the Worker refuses all submissions.
+- Allowed sites are in `ALLOWED_ORIGINS` in `worker/wrangler.jsonc`.
+- Local testing: create `worker/.dev.vars` with test values (Cloudflare's always-pass Turnstile test
+  keys), run `npx wrangler dev`, and build the site with `PUBLIC_FORM_ENDPOINT=http://127.0.0.1:8787`
+  and `PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000AA`.
 
 ## Cookies, analytics and policies
 
