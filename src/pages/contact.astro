@@ -1,16 +1,10 @@
 ---
-import { Mail, MapPin, Check } from '@lucide/astro';
+import { Check } from '@lucide/astro';
 import Base from '../layouts/Base.astro';
-import Email from '../components/Email.astro';
 import { SITE, url } from '../config/site';
 
 const { endpoint, turnstileSiteKey } = SITE.form;
 
-const steps = [
-  'We reply to set up a first conversation.',
-  'We talk through how your business works and what you need.',
-  'You get a clear proposal with scope, timeline and price.',
-];
 ---
 
 <Base
@@ -29,9 +23,9 @@ const steps = [
   </section>
 
   <section class="section">
-    <div class="container contact">
+    <div class="container narrow">
       {
-        endpoint ? (
+        endpoint && (
           <div class="form-card reveal">
             <form id="contact-form" class="form" data-endpoint={endpoint} novalidate>
               <div class="row">
@@ -90,41 +84,8 @@ const steps = [
               <p>We’ll get back to you soon to set up a first conversation.</p>
             </div>
           </div>
-        ) : null
+        )
       }
-
-      <aside class:list={['side', { only: !endpoint }]}>
-        <div class="details reveal" style="--d:1">
-          <div class="detail">
-            <span class="icon"><Mail /></span>
-            <div>
-              <p class="label">{endpoint ? 'Or email us directly' : 'Email'}</p>
-              {
-                SITE.emails.map((e) => (
-                  <p class="value">
-                    <span class="who">{e.name}</span>
-                    <Email address={e.address} />
-                  </p>
-                ))
-              }
-            </div>
-          </div>
-          <div class="detail">
-            <span class="icon"><MapPin /></span>
-            <div>
-              <p class="label">Where we work</p>
-              <p class="value">{SITE.region}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="reveal" style="--d:2">
-          <h2 class="title">What happens next</h2>
-          <ol class="next">
-            {steps.map((s) => <li>{s}</li>)}
-          </ol>
-        </div>
-      </aside>
     </div>
   </section>
 </Base>
@@ -176,9 +137,7 @@ const steps = [
         form.hidden = true;
         success.hidden = false;
       } catch (err) {
-        showError(
-          `${(err as Error).message} You can also email us at the addresses on this page.`,
-        );
+        showError(`${(err as Error).message} Please try again in a moment.`);
         w.turnstile?.reset();
       } finally {
         button.disabled = false;
@@ -189,23 +148,6 @@ const steps = [
 </script>
 
 <style>
-  .contact {
-    display: grid;
-    grid-template-columns: 1.35fr 1fr;
-    gap: clamp(32px, 5vw, 64px);
-    align-items: start;
-  }
-
-  .side {
-    display: grid;
-    gap: 36px;
-  }
-
-  .side.only {
-    grid-column: 1 / -1;
-    grid-template-columns: 1fr 1.2fr;
-  }
-
   /* ── Form ── */
   .form-card {
     padding: clamp(24px, 4vw, 40px);
@@ -346,106 +288,6 @@ const steps = [
   .success p {
     margin-top: 10px;
     color: var(--muted);
-  }
-
-  /* ── Side column ── */
-  .details {
-    display: grid;
-    gap: 24px;
-    padding: clamp(24px, 3vw, 32px);
-    border-radius: var(--radius);
-    background: var(--grad-soft);
-    border: 1px solid var(--line);
-  }
-
-  .detail {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-  }
-
-  .icon {
-    flex: none;
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: var(--grad);
-    color: #fff;
-  }
-
-  .icon :global(svg) {
-    width: 20px;
-    height: 20px;
-  }
-
-  .label {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--muted);
-  }
-
-  .value {
-    font-size: 17px;
-    font-weight: 600;
-    word-break: break-word;
-  }
-
-  .value + .value {
-    margin-top: 4px;
-  }
-
-  .who {
-    display: inline-block;
-    min-width: 54px;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  .value :global(a.email) {
-    color: var(--accent);
-  }
-
-  .side .title {
-    margin-bottom: 14px;
-  }
-
-  .next {
-    list-style: none;
-    counter-reset: step;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 12px;
-  }
-
-  .next li {
-    counter-increment: step;
-    display: grid;
-    grid-template-columns: 34px 1fr;
-    gap: 12px;
-    color: var(--ink-2);
-  }
-
-  .next li::before {
-    content: counter(step);
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--grad);
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-  }
-
-  @media (max-width: 900px) {
-    .contact,
-    .side.only {
-      grid-template-columns: 1fr;
-    }
   }
 
   @media (max-width: 560px) {

@@ -29,8 +29,6 @@ const isActive = (href: string) => (href === '/' ? path === url('/') : path.star
       </ul>
     </nav>
 
-    <a class="btn btn-primary btn-sm cta" href={url('/contact/')}>Talk to us</a>
-
     <button class="toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
       <span class="sr-only">Menu</span>
       <span class="bar"></span>
@@ -48,7 +46,6 @@ const isActive = (href: string) => (href === '/' ? path === url('/') : path.star
         ))
       }
     </ul>
-    <a class="btn btn-primary" href={url('/contact/')}>Talk to us</a>
   </nav>
 </header>
 
@@ -232,8 +229,7 @@ const isActive = (href: string) => (href === '/' ? path === url('/') : path.star
   }
 
   @media (max-width: 759px) {
-    .links,
-    .cta {
+    .links {
       display: none;
     }
     .toggle {
