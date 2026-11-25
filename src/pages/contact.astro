@@ -1,15 +1,10 @@
 ---
-import { Mail, MapPin } from '@lucide/astro';
+import { Mail, MapPin, Check } from '@lucide/astro';
 import Base from '../layouts/Base.astro';
 import Email from '../components/Email.astro';
-import { SITE } from '../config/site';
+import { SITE, url } from '../config/site';
 
-const include = [
-  'A little about your business and your team',
-  'The tools or systems you use today',
-  'What you’d like Odoo to do for you',
-  'Your timeline, if you have one in mind',
-];
+const { endpoint, turnstileSiteKey } = SITE.form;
 
 const steps = [
   'We reply to set up a first conversation.',
@@ -35,60 +30,329 @@ const steps = [
 
   <section class="section">
     <div class="container contact">
-      <div class="details reveal">
-        <div class="detail">
-          <span class="icon"><Mail /></span>
-          <div>
-            <p class="label">Email</p>
-            {
-              SITE.emails.map((e) => (
-                <p class="value">
-                  <span class="who">{e.name}</span>
-                  <Email address={e.address} />
-                </p>
-              ))
-            }
-          </div>
-        </div>
-        <div class="detail">
-          <span class="icon"><MapPin /></span>
-          <div>
-            <p class="label">Where we work</p>
-            <p class="value">{SITE.region}</p>
-          </div>
-        </div>
-      </div>
+      {
+        endpoint ? (
+          <div class="form-card reveal">
+            <form id="contact-form" class="form" data-endpoint={endpoint} novalidate>
+              <div class="row">
+                <div class="field">
+                  <label for="name">Name</label>
+                  <input class="input" id="name" name="name" autocomplete="name" maxlength="100" required />
+                </div>
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input class="input" id="email" name="email" type="email" autocomplete="email" maxlength="254" required />
+                </div>
+              </div>
+              <div class="field">
+                <label for="company">
+                  Company <span class="hint">(optional)</span>
+                </label>
+                <input class="input" id="company" name="company" autocomplete="organization" maxlength="150" />
+              </div>
+              <div class="field">
+                <label for="message">Message</label>
+                <textarea
+                  class="input"
+                  id="message"
+                  name="message"
+                  minlength="10"
+                  maxlength="5000"
+                  required
+                  placeholder="A little about your business, the tools you use today, and what you’d like Odoo to do."
+                />
+              </div>
 
-      <div class="info">
-        <div class="reveal" style="--d:1">
-          <h2 class="title">Helpful to include</h2>
-          <ul class="bullets">
-            {include.map((line) => <li>{line}</li>)}
-          </ul>
+              <div class="trap" aria-hidden="true">
+                <label for="website">Leave this empty</label>
+                <input id="website" name="website" tabindex="-1" autocomplete="off" />
+              </div>
+
+              {turnstileSiteKey && (
+                <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible" />
+              )}
+
+              <div class="submit-row">
+                <button class="btn btn-primary" type="submit">Send message</button>
+                <p class="privacy">
+                  We only use your details to reply to you. See our{' '}
+                  <a href={url('/privacy/')}>privacy policy</a>.
+                </p>
+              </div>
+              <p class="status" role="status" aria-live="polite" />
+            </form>
+
+            <div class="success" hidden>
+              <span class="success-icon">
+                <Check />
+              </span>
+              <h2 class="title">Thanks, your message is on its way.</h2>
+              <p>We’ll get back to you soon to set up a first conversation.</p>
+            </div>
+          </div>
+        ) : null
+      }
+
+      <aside class:list={['side', { only: !endpoint }]}>
+        <div class="details reveal" style="--d:1">
+          <div class="detail">
+            <span class="icon"><Mail /></span>
+            <div>
+              <p class="label">{endpoint ? 'Or email us directly' : 'Email'}</p>
+              {
+                SITE.emails.map((e) => (
+                  <p class="value">
+                    <span class="who">{e.name}</span>
+                    <Email address={e.address} />
+                  </p>
+                ))
+              }
+            </div>
+          </div>
+          <div class="detail">
+            <span class="icon"><MapPin /></span>
+            <div>
+              <p class="label">Where we work</p>
+              <p class="value">{SITE.region}</p>
+            </div>
+          </div>
         </div>
+
         <div class="reveal" style="--d:2">
           <h2 class="title">What happens next</h2>
           <ol class="next">
             {steps.map((s) => <li>{s}</li>)}
           </ol>
         </div>
-      </div>
+      </aside>
     </div>
   </section>
 </Base>
 
+{
+  turnstileSiteKey && endpoint && (
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+  )
+}
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+
+  if (form) {
+    const status = form.querySelector<HTMLElement>('.status')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const success = form.parentElement!.querySelector<HTMLElement>('.success')!;
+    const w = window as Window & { turnstile?: { reset: () => void } };
+
+    const showError = (message: string) => {
+      status.textContent = message;
+      status.classList.add('is-error');
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = '';
+      status.classList.remove('is-error');
+      form.classList.add('was-validated');
+
+      const invalid = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]')].find(
+        (el) => !el.checkValidity(),
+      );
+      if (invalid) {
+        invalid.focus();
+        if (invalid.id === 'email' && invalid.value) showError('Please enter a valid email address.');
+        else if (invalid.id === 'message' && invalid.value)
+          showError('Please write a little more (at least 10 characters).');
+        else showError('Please fill in your name, email and message.');
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = 'Sending…';
+      try {
+        const res = await fetch(form.dataset.endpoint!, { method: 'POST', body: new FormData(form) });
+        const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+        if (!res.ok || !data.ok) throw new Error(data.error || 'Something went wrong.');
+        form.hidden = true;
+        success.hidden = false;
+      } catch (err) {
+        showError(
+          `${(err as Error).message} You can also email us at the addresses on this page.`,
+        );
+        w.turnstile?.reset();
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Send message';
+      }
+    });
+  }
+</script>
+
 <style>
   .contact {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: clamp(32px, 6vw, 80px);
+    grid-template-columns: 1.35fr 1fr;
+    gap: clamp(32px, 5vw, 64px);
     align-items: start;
   }
 
+  .side {
+    display: grid;
+    gap: 36px;
+  }
+
+  .side.only {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr 1.2fr;
+  }
+
+  /* ── Form ── */
+  .form-card {
+    padding: clamp(24px, 4vw, 40px);
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .form {
+    display: grid;
+    gap: 20px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .field {
+    display: grid;
+    gap: 8px;
+  }
+
+  label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+
+  .hint {
+    font-weight: 400;
+    color: var(--faint);
+  }
+
+  .input {
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--line-strong);
+    background: #fff;
+    font: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  textarea.input {
+    min-height: 160px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .input::placeholder {
+    color: var(--faint);
+  }
+
+  .input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.14);
+  }
+
+  .was-validated .input:invalid {
+    border-color: #c62828;
+  }
+
+  .trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .submit-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 20px;
+  }
+
+  .submit-row .btn:disabled {
+    opacity: 0.7;
+    cursor: progress;
+  }
+
+  .privacy {
+    max-width: 300px;
+    font-size: 13px;
+    color: var(--faint);
+  }
+
+  .privacy a {
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .status {
+    font-size: 15px;
+    color: var(--ink-2);
+  }
+
+  .status:empty {
+    display: none;
+  }
+
+  .status.is-error {
+    color: #c62828;
+  }
+
+  .success {
+    padding: 32px 8px;
+    text-align: center;
+  }
+
+  .success-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    background: var(--grad);
+    color: #fff;
+  }
+
+  .success-icon :global(svg) {
+    width: 30px;
+    height: 30px;
+  }
+
+  .success p {
+    margin-top: 10px;
+    color: var(--muted);
+  }
+
+  /* ── Side column ── */
   .details {
     display: grid;
     gap: 24px;
-    padding: clamp(28px, 4vw, 40px);
+    padding: clamp(24px, 3vw, 32px);
     border-radius: var(--radius);
     background: var(--grad-soft);
     border: 1px solid var(--line);
@@ -123,19 +387,18 @@ const steps = [
   }
 
   .value {
-    font-size: clamp(17px, 1.8vw, 20px);
+    font-size: 17px;
     font-weight: 600;
-    letter-spacing: -0.01em;
     word-break: break-word;
   }
 
   .value + .value {
-    margin-top: 6px;
+    margin-top: 4px;
   }
 
   .who {
     display: inline-block;
-    min-width: 58px;
+    min-width: 54px;
     color: var(--muted);
     font-weight: 500;
   }
@@ -144,25 +407,8 @@ const steps = [
     color: var(--accent);
   }
 
-  .info {
-    display: grid;
-    gap: 40px;
-  }
-
-  .info .title {
+  .side .title {
     margin-bottom: 14px;
-  }
-
-  .bullets {
-    margin: 0;
-    padding-left: 1.2em;
-    display: grid;
-    gap: 8px;
-    color: var(--ink-2);
-  }
-
-  .bullets li::marker {
-    color: var(--accent);
   }
 
   .next {
@@ -195,8 +441,15 @@ const steps = [
     font-weight: 700;
   }
 
-  @media (max-width: 820px) {
-    .contact {
+  @media (max-width: 900px) {
+    .contact,
+    .side.only {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .row {
       grid-template-columns: 1fr;
     }
   }

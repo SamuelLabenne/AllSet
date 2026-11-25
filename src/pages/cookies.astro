@@ -68,6 +68,15 @@ const addresses = emails.map((e) => e.address).join(' or ');
     from a third party.
   </p>
 
+  <h2>Spam protection on the contact form</h2>
+  <p>
+    The contact page loads Cloudflare Turnstile, which checks that a form submission comes from a
+    person rather than a bot. It is used only for that security purpose, not for advertising or
+    analytics, so it doesn’t depend on your cookie choice. See
+    <a href="https://www.cloudflare.com/turnstile-privacy-policy/" rel="noopener">Cloudflare’s
+    Turnstile privacy notice</a> for details.
+  </p>
+
   <h2>Your choice</h2>
   <p>
     When you first visit, we ask whether you accept analytics cookies. Declining has no effect on

@@ -10,6 +10,12 @@ export const SITE = {
     { name: 'Freek', address: 'freek@allsetpartners.com' },
   ],
   emailsLive: false,
+  // Contact form: posts to the Cloudflare Worker in /worker, which emails both founders.
+  // Leave endpoint empty to hide the form. PUBLIC_* env vars override these for local testing.
+  form: {
+    endpoint: import.meta.env.PUBLIC_FORM_ENDPOINT ?? '',
+    turnstileSiteKey: import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '',
+  },
   region: 'Australia & Europe',
   abn: '12 415 125 386',
   // Google Analytics 4 measurement ID (e.g. 'G-XXXXXXXXXX'). Only loaded after a

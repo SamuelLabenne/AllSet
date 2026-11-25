@@ -1,0 +1,16 @@
+// Contact form handler for allsetpartners.com.
+// Recipient addresses are NOT stored here (this repo is public): they're set as a secret,
+// `RECIPIENTS` (comma-separated), and must be verified Email Routing destination addresses.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "asp-contact",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "send_email": [{ "name": "SEND_EMAIL" }],
+  "vars": {
+    "FROM_ADDRESS": "website@allsetpartners.com",
+    "ALLOWED_ORIGINS": "https://allsetpartners.com,https://www.allsetpartners.com,https://samuellabenne.github.io"
+  },
+  "observability": { "enabled": true }
+}

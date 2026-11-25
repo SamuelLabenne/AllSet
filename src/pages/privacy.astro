@@ -26,13 +26,19 @@ const addresses = emails.map((e) => e.address).join(' or ');
   <h2>What we collect</h2>
   <ul>
     <li>
-      <strong>What you send us.</strong> When you contact us, we receive your name, contact
-      details and anything you choose to include in your message.
+      <strong>What you send us.</strong> When you use our contact form or email us, we receive
+      your name, email address, company (if you give it) and anything you include in your
+      message.
     </li>
     <li>
       <strong>Technical information.</strong> When you visit, our hosting and network providers
       automatically process technical data such as your IP address, browser type and the pages
       requested, so the site can be delivered and kept secure. We don’t use this to identify you.
+    </li>
+    <li>
+      <strong>Spam protection.</strong> Our contact form uses Cloudflare Turnstile to check that a
+      submission comes from a person. It processes technical information such as your IP address
+      and browser details for that purpose only.
     </li>
     <li>
       <strong>Cookies and similar technologies.</strong> Analytics cookies are only used if you
@@ -51,7 +57,7 @@ const addresses = emails.map((e) => e.address).join(' or ');
         <td>Steps you’ve asked us to take before a possible contract, and our legitimate interest in answering enquiries</td>
       </tr>
       <tr>
-        <td>Running and securing the website</td>
+        <td>Running and securing the website, including protecting the contact form from spam</td>
         <td>Our legitimate interest in operating a secure, working website</td>
       </tr>
       <tr>
@@ -72,8 +78,13 @@ const addresses = emails.map((e) => e.address).join(' or ');
   <h2>Who we share it with</h2>
   <p>We only share personal information with the services that help us run our business:</p>
   <ul>
-    <li>our website host, GitHub (GitHub Pages), and our domain and network provider, Cloudflare;</li>
-    <li>our email and business software providers;</li>
+    <li>our website host, GitHub (GitHub Pages);</li>
+    <li>
+      Cloudflare, which provides our domain and network, delivers our email, and runs our contact
+      form and its spam check;
+    </li>
+    <li>our email provider (currently Google Gmail), where enquiries are delivered;</li>
+    <li>our business software providers;</li>
     {analyticsId && <li>Google, for website analytics, only if you accept analytics cookies;</li>}
     <li>professional advisers, such as accountants and lawyers, where needed.</li>
   </ul>
