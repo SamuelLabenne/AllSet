@@ -28,8 +28,8 @@ WebP automatically, so originals of around 2000 px wide are ideal.
 
 | File | Where it appears | Shape |
 | --- | --- | --- |
-| `hero` | Full-width background of the home page header (a dark blue overlay keeps text readable) | Landscape |
-| `about` | Next to "Our story" on the About page | Landscape, 4:3 |
+| `hero` | Full-width background of the home page header (a dark blue overlay keeps text readable) | Any; portrait is cropped around 58% height on wide screens |
+| `about` | Next to "Our story" on the About page | Portrait, 3:4 |
 | `samuel` | Sam's card on the home and About pages | Portrait |
 | `freek` | Freek's card on the home and About pages | Portrait |
 

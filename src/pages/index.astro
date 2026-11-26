@@ -42,7 +42,7 @@ const steps = [
         tone="dark"
         loading="eager"
         widths={[800, 1400, 2000]}
-        sizes="100vw"
+        sizes="(max-width: 760px) 150vw, 100vw"
       />
     </div>
     <div class="hero-shade" aria-hidden="true"></div>
@@ -176,12 +176,17 @@ const steps = [
     inset: 0;
   }
 
+  /* The photo is portrait: keep the Cinquantenaire arch in frame on wide screens. */
+  .hero-bg :global(img) {
+    object-position: 50% 58%;
+  }
+
   .hero-shade {
     position: absolute;
     inset: 0;
     background:
       linear-gradient(180deg, rgba(11, 31, 68, 0.55) 0%, rgba(11, 31, 68, 0.15) 35%, rgba(11, 31, 68, 0.75) 100%),
-      linear-gradient(90deg, rgba(11, 31, 68, 0.6) 0%, rgba(11, 31, 68, 0) 70%);
+      linear-gradient(90deg, rgba(11, 31, 68, 0.78) 0%, rgba(11, 31, 68, 0.4) 45%, rgba(11, 31, 68, 0) 75%);
   }
 
   .hero-content {
