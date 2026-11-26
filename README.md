@@ -30,7 +30,7 @@ WebP automatically, so originals of around 2000 px wide are ideal.
 | --- | --- | --- |
 | `hero` | Full-width background of the home page header (a dark blue overlay keeps text readable) | Landscape |
 | `about` | Next to "Our story" on the About page | Landscape, 4:3 |
-| `samuel` | Samuel's card on the home and About pages | Portrait |
+| `samuel` | Sam's card on the home and About pages | Portrait |
 | `freek` | Freek's card on the home and About pages | Portrait |
 
 ## Where things live

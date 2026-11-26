@@ -3,9 +3,9 @@
 export const team = [
   {
     photo: 'samuel',
-    name: 'Samuel Labenne',
+    name: 'Sam',
     role: 'Co-founder · Technical lead',
-    bio: 'A developer at heart, Samuel leads the technical side of every project: solution design, configuration, data migration and integrations, plus custom development where it genuinely pays off.',
+    bio: 'A developer at heart, Sam leads the technical side of every project: solution design, configuration, data migration and integrations, plus custom development where it genuinely pays off.',
     email: 'sam@allsetpartners.com',
     linkedin: 'https://www.linkedin.com/in/samuel-labenne-679512225/',
   },
