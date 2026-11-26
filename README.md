@@ -29,7 +29,6 @@ WebP automatically, so originals of around 2000 px wide are ideal.
 | File | Where it appears | Shape |
 | --- | --- | --- |
 | `hero` | Full-width background of the home page header (a dark blue overlay keeps text readable) | Any; portrait is cropped around 58% height on wide screens |
-| `about` | Optional: a photo of the founders together next to "Our story". Until it exists, a "Brussels → Perth · Madrid" panel shows there instead | Portrait, 3:4 |
 | `samuel` | Sam's card on the home and About pages | Portrait |
 | `freek` | Freek's card on the home and About pages | Portrait |
 

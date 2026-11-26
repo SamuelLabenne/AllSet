@@ -3,8 +3,6 @@ import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
 import PartnerBadge from '../components/PartnerBadge.astro';
 import CTA from '../components/CTA.astro';
-import JourneyPanel from '../components/JourneyPanel.astro';
-import { findPhoto } from '../lib/photos';
 import Email from '../components/Email.astro';
 import { SITE } from '../config/site';
 import { team } from '../data/team';
@@ -46,44 +44,32 @@ const values = [
 
   <section class="section">
     <div class="container story">
-      {
-        findPhoto('about') ? (
-          <div class="story-photo reveal">
-            <Photo
-              name="about"
-              alt="Sam and Freek, friends since high school"
-              widths={[500, 800, 1100]}
-              sizes="(max-width: 860px) 100vw, 45vw"
-            />
-          </div>
-        ) : (
-          <div class="story-panel reveal">
-            <JourneyPanel />
-          </div>
-        )
-      }
-      <div class="story-text">
-        <h2 class="headline reveal">Our story</h2>
-        <p class="reveal" style="--d:1">
-          We’re Sam and Freek, and we’ve been friends since high school in Brussels. So it feels
-          fitting that we work with Odoo: like us, it got its start in Belgium.
+      <div class="story-head reveal">
+        <p class="eyebrow">Our story</p>
+        <h2 class="statement">
+          Friends since high school in Brussels. <span>Now in Perth and Madrid.</span>
+        </h2>
+      </div>
+      <div class="story-text reveal" style="--d:1">
+        <p>
+          We’re Sam and Freek. It feels fitting that we work with Odoo: like us, it got its start in
+          Belgium.
         </p>
-        <p class="reveal" style="--d:2">
-          Life later took us to opposite sides of the world, to Perth and Madrid.
-          That’s why {SITE.name} works with businesses in both Australia and Europe,
-          with one of us close by in each.
+        <p>
+          Life later took us to opposite sides of the world. That’s why {SITE.name} works with
+          businesses in both Australia and Europe, with one of us close by in each.
         </p>
-        <p class="reveal" style="--d:3">
+        <p>
           We started {SITE.name} to make Odoo implementations straightforward: experienced people, a
           clear scope and price, and support that doesn’t stop at go-live. Odoo is the only thing we
           do, so our advice about what to configure, what to build and what to leave out is focused
           and honest.
         </p>
-        <p class="reveal" style="--d:4">
+        <p>
           Why the name? Because that’s how go-live should feel: everything in place, everyone
           trained, nothing left hanging. All set.
         </p>
-        <div class="reveal" style="--d:5"><PartnerBadge /></div>
+        <PartnerBadge />
       </div>
     </div>
   </section>
@@ -149,23 +135,36 @@ const values = [
 <style>
   .story {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(32px, 6vw, 80px);
-    align-items: center;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
   }
 
-  .story-photo {
-    aspect-ratio: 3 / 4;
-    border-radius: var(--radius);
-    overflow: hidden;
+  /* The story's one line, set large in type. */
+  .statement {
+    font-size: clamp(32px, 3.9vw, 52px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  .statement span {
+    color: var(--muted);
   }
 
   .story-text {
     display: grid;
     gap: 18px;
     justify-items: start;
+    padding-top: 34px;
     font-size: clamp(17px, 1.6vw, 19px);
     color: var(--ink-2);
+  }
+
+  .story-text :global(.badge) {
+    margin-top: 8px;
   }
 
   .founders {
@@ -246,9 +245,8 @@ const values = [
     .founders {
       grid-template-columns: 1fr;
     }
-    /* On one column, read the story first, then the panel. */
-    .story-panel {
-      order: 1;
+    .story-text {
+      padding-top: 0;
     }
   }
 

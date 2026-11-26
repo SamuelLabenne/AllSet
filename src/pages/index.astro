@@ -280,7 +280,8 @@ const steps = [
     height: 40px;
     margin-bottom: 18px;
     border-radius: 50%;
-    background: var(--grad);
+    /* The deeper blues only, so the white number stays readable. */
+    background: linear-gradient(135deg, #12357f, #1d4ed8 60%, #2563eb);
     color: #fff;
     font-weight: 700;
   }
