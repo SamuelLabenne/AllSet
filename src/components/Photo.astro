@@ -2,8 +2,8 @@
 // Shows src/assets/photos/<name>.(jpg|jpeg|png|webp) if it exists,
 // otherwise a labelled placeholder so the layout is ready for the real photo.
 import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
 import { Camera } from '@lucide/astro';
+import { findPhoto } from '../lib/photos';
 
 interface Props {
   name: string;
@@ -25,14 +25,7 @@ const {
   tone = 'light',
 } = Astro.props;
 
-const photos = import.meta.glob<{ default: ImageMetadata }>(
-  '../assets/photos/*.{jpg,jpeg,png,webp}',
-  { eager: true },
-);
-const match = Object.entries(photos).find(([path]) =>
-  new RegExp(`/${name}\\.(jpe?g|png|webp)$`, 'i').test(path),
-);
-const src = match?.[1].default;
+const src = findPhoto(name);
 ---
 
 {

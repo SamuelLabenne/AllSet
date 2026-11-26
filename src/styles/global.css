@@ -1,4 +1,4 @@
-@import '@fontsource-variable/instrument-sans';
+@import '@fontsource-variable/raleway';
 
 /* ───────────────────────── Tokens ───────────────────────── */
 :root {
@@ -20,8 +20,8 @@
   --grad-deep: linear-gradient(135deg, #0b1f44 0%, #12357f 55%, #1d4ed8 100%);
   --grad-soft: linear-gradient(135deg, #eef3ff 0%, #f1f7ff 55%, #ecf8ff 100%);
 
-  /* Instrument Sans (self-hosted via Fontsource) for everything. */
-  --font: 'Instrument Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+  /* Raleway (self-hosted via Fontsource, so no requests to Google) for everything. */
+  --font: 'Raleway Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
   --font-display: var(--font);
 
@@ -60,6 +60,8 @@ body {
   font-size: 17px;
   line-height: 1.55;
   letter-spacing: -0.011em;
+  /* Raleway's default figures are old-style; keep numbers (ABN, steps) on the line. */
+  font-variant-numeric: lining-nums;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;

@@ -1,0 +1,131 @@
+---
+// Shown next to "Our story" until a photo of the founders together (about.jpg) is added.
+const stops = [
+  {
+    when: 'Then',
+    place: 'Brussels, Belgium',
+    text: 'Where we met at high school. Belgium is also where Odoo began.',
+  },
+  { when: 'Today', place: 'Perth, Australia', text: 'Close to our clients in Australia.' },
+  { when: 'Today', place: 'Madrid, Spain', text: 'Close to our clients in Europe.' },
+];
+---
+
+<div class="journey">
+  <p class="label">From Brussels to two continents</p>
+  <ol>
+    {
+      stops.map((s, i) => (
+        <li class:list={{ first: i === 0 }}>
+          <span class="dot" aria-hidden="true" />
+          <div>
+            <span class="when">{s.when}</span>
+            <h3>{s.place}</h3>
+            <p>{s.text}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<style>
+  .journey {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(32px, 4vw, 48px);
+    border-radius: var(--radius);
+    background: var(--grad-deep);
+    color: #fff;
+  }
+
+  /* Soft highlight in the corner, in keeping with the brand blues. */
+  .journey::before {
+    content: '';
+    position: absolute;
+    inset: auto -30% -40% auto;
+    width: 80%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(56, 189, 248, 0.28), transparent);
+    pointer-events: none;
+  }
+
+  .label {
+    position: relative;
+    margin-bottom: 32px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  ol {
+    position: relative;
+    display: grid;
+    gap: 32px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* The line joining the three stops. */
+  ol::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(56, 189, 248, 0.8));
+  }
+
+  li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .dot {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    margin-top: 4px;
+    border-radius: 50%;
+    background: var(--sky);
+    box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.2);
+  }
+
+  .first .dot {
+    background: var(--navy);
+    border: 2px solid #fff;
+    box-shadow: none;
+  }
+
+  .when {
+    display: inline-block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--sky);
+  }
+
+  .first .when {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  h3 {
+    font-size: clamp(22px, 2.4vw, 28px);
+    color: #fff;
+  }
+
+  li p {
+    margin-top: 6px;
+    color: rgba(255, 255, 255, 0.78);
+  }
+</style>

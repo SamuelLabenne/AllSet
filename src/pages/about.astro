@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
 import PartnerBadge from '../components/PartnerBadge.astro';
 import CTA from '../components/CTA.astro';
+import JourneyPanel from '../components/JourneyPanel.astro';
+import { findPhoto } from '../lib/photos';
 import Email from '../components/Email.astro';
 import { SITE } from '../config/site';
 import { team } from '../data/team';
@@ -44,14 +46,22 @@ const values = [
 
   <section class="section">
     <div class="container story">
-      <div class="story-photo reveal">
-        <Photo
-          name="about"
-          alt="Sam and Freek, friends since high school"
-          widths={[500, 800, 1100]}
-          sizes="(max-width: 860px) 100vw, 45vw"
-        />
-      </div>
+      {
+        findPhoto('about') ? (
+          <div class="story-photo reveal">
+            <Photo
+              name="about"
+              alt="Sam and Freek, friends since high school"
+              widths={[500, 800, 1100]}
+              sizes="(max-width: 860px) 100vw, 45vw"
+            />
+          </div>
+        ) : (
+          <div class="story-panel reveal">
+            <JourneyPanel />
+          </div>
+        )
+      }
       <div class="story-text">
         <h2 class="headline reveal">Our story</h2>
         <p class="reveal" style="--d:1">
@@ -235,6 +245,10 @@ const values = [
     .story,
     .founders {
       grid-template-columns: 1fr;
+    }
+    /* On one column, read the story first, then the panel. */
+    .story-panel {
+      order: 1;
     }
   }
 
