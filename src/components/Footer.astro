@@ -154,4 +154,25 @@ const year = new Date().getFullYear();
       grid-column: 1 / -1;
     }
   }
+
+  /* Phones: every footer link and button is a 44px tap target (the rows close up to make room). */
+  @media (max-width: 759px) {
+    ul {
+      gap: 0;
+    }
+    .about :global(.brand),
+    .col :global(a),
+    .legal a,
+    .legal button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+    .col li:not(:has(a)) {
+      padding-block: 12px;
+    }
+    .legal {
+      gap: 0 24px;
+    }
+  }
 </style>

@@ -63,7 +63,15 @@ const { endpoint, turnstileSiteKey } = SITE.form;
               </div>
 
               {turnstileSiteKey && (
-                <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible" />
+                <>
+                  <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible" />
+                  <script is:inline>
+                    // The flexible widget needs at least 300px; narrower phones get the compact one (150 x 140).
+                    if (window.innerWidth < 360) {
+                      document.querySelectorAll('.cf-turnstile').forEach((el) => (el.dataset.size = 'compact'));
+                    }
+                  </script>
+                </>
               )}
 
               <div class="submit-row">
