@@ -9,7 +9,7 @@ export const SITE = {
     { name: 'Sam', address: 'sam@allsetpartners.com' },
     { name: 'Freek', address: 'freek@allsetpartners.com' },
   ],
-  emailsLive: false,
+  emailsLive: true,
   // Contact form: posts to the Cloudflare Worker in /worker, which emails both founders.
   // Leave endpoint empty to hide the form. PUBLIC_* env vars override these for local testing.
   form: {
